@@ -5,6 +5,7 @@ import pool from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import serviceRoutes from './routes/serviceRoutes.js'
 import appointmentRoutes from './routes/appointmentRoutes.js'
+import manageRoutes from './routes/manageRoutes.js'
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.get('/api/health', async (req, res, next) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/services', serviceRoutes)
 app.use('/api/appointments', appointmentRoutes)
+app.use('/api/manage', manageRoutes)
 
 // Jo route na mile uska jawab
 app.use((req, res) => {

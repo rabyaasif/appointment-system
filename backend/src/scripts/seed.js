@@ -75,6 +75,25 @@ async function seed() {
     }
   }
 
+    // Admin account (sirf tab banta hai jab .env mein email aur password ho)
+  const adminEmail = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase()
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD
+
+  if (adminEmail && adminPassword) {
+    if (adminPassword.length < 8) {
+      throw new Error('SEED_ADMIN_PASSWORD must be at least 8 characters')
+    }
+
+    const [admins] = await pool.execute('SELECT id FROM users WHERE email = ?', [adminEmail])
+    if (admins.length === 0) {
+      const adminHash = await bcrypt.hash(adminPassword, 12)
+      await pool.execute(
+        "INSERT INTO users (name, email, password, phone, role, email_verified) VALUES (?, ?, ?, ?, 'admin', 1)",
+        ['Clinic Admin', adminEmail, adminHash, '03001000000']
+      )
+    }
+  }
+
   console.log('Seeding done: services, doctors, their services and weekly schedules')
 }
 

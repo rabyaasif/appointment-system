@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import InputField from '../components/InputField'
 import Button from '../components/Button'
+import { signupUser } from '../services/authService'
 
 function Signup() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,12 +15,14 @@ function Signup() {
     confirmPassword: '',
   })
   const [errors, setErrors] = useState({})
+  const [formError, setFormError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
     setErrors((prev) => ({ ...prev, [name]: '' }))
+    setFormError('')
   }
 
   const validate = () => {
@@ -56,24 +60,35 @@ function Signup() {
     return newErrors
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const validationErrors = validate()
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
       return
     }
+
     setIsLoading(true)
-    // Backend se connect baad mein hoga
-    setTimeout(() => {
-      // Password ko kabhi console mein log nahi karte
-      console.log('Signup data:', {
+    setFormError('')
+
+    try {
+            const data = await signupUser({
         name: formData.name.trim(),
         email: formData.email.trim().toLowerCase(),
         phone: formData.phone.replace(/[\s-]/g, ''),
+        password: formData.password,
       })
+      navigate('/verify-otp', { state: { email: data.user.email, devOtp: data.devOtp } })
+    } catch (error) {
+      const fieldErrors = error.fieldErrors || {}
+      setErrors(fieldErrors)
+      // Agar kisi field ka error nahi, to general message dikhao
+      if (Object.keys(fieldErrors).length === 0) {
+        setFormError(error.message)
+      }
+    } finally {
       setIsLoading(false)
-    }, 1000)
+    }
   }
 
   return (
@@ -99,7 +114,7 @@ function Signup() {
             value={formData.phone}
             onChange={handleChange}
             error={errors.phone}
-            placeholder="03001234567"
+            placeholder="03xxxxxxxxx"
             autoComplete="tel"
           />
         </div>
@@ -137,6 +152,8 @@ function Signup() {
             autoComplete="new-password"
           />
         </div>
+
+        {formError && <p className="pt-1 text-center text-sm text-red-500">{formError}</p>}
 
         <div className="pt-2">
           <Button isLoading={isLoading} loadingText="Creating account...">

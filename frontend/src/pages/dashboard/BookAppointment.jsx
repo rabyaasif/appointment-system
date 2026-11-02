@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import SelectField from '../../components/SelectField'
 import Button from '../../components/Button'
-import { services } from '../../data/services'
-import { doctors, timeSlots, isSlotBooked } from '../../data/doctors'
+import { getServices, getServiceDoctors, getSlots } from '../../services/serviceService'
+import { createAppointment } from '../../services/appointmentService'
 
 function toKey(date) {
   const year = date.getFullYear()
@@ -55,50 +55,142 @@ function BookAppointment() {
   const [searchParams] = useSearchParams()
   const dates = useMemo(() => getNextDays(7), [])
 
-  const paramService = searchParams.get('service')
-  const initialService = services.some((s) => String(s.id) === paramService) ? paramService : ''
+  const [services, setServices] = useState([])
+  const [servicesLoading, setServicesLoading] = useState(true)
+  const [servicesError, setServicesError] = useState('')
 
-  const [serviceId, setServiceId] = useState(initialService)
+  const [serviceId, setServiceId] = useState(searchParams.get('service') ?? '')
   const [doctorId, setDoctorId] = useState('')
   const [dateKey, setDateKey] = useState(dates[0].key)
   const [slot, setSlot] = useState('')
+  const [refreshCount, setRefreshCount] = useState(0)
+
+  const [doctorsState, setDoctorsState] = useState({ serviceId: '', list: [] })
+  const [slotsState, setSlotsState] = useState({ key: '', list: [], error: '' })
+
   const [isLoading, setIsLoading] = useState(false)
+  const [bookError, setBookError] = useState('')
   const [booked, setBooked] = useState(null)
 
-  const service = services.find((s) => String(s.id) === serviceId)
-  const availableDoctors = service ? doctors.filter((d) => d.serviceIds.includes(service.id)) : []
-  const doctor = doctors.find((d) => String(d.id) === doctorId)
-  const selectedDate = dates.find((d) => d.key === dateKey)
+  // Services ki list
+  useEffect(() => {
+    let cancelled = false
 
-  const isToday = dateKey === dates[0].key
-  const now = new Date()
-  const nowMinutes = now.getHours() * 60 + now.getMinutes()
-  const ready = Boolean(service && doctor && slot)
+    getServices()
+      .then((data) => {
+        if (!cancelled) setServices(data.services)
+      })
+      .catch((error) => {
+        if (!cancelled) setServicesError(error.message)
+      })
+      .finally(() => {
+        if (!cancelled) setServicesLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  // Chuni hui service ke doctors
+  useEffect(() => {
+    if (!serviceId) return
+    let cancelled = false
+
+    getServiceDoctors(serviceId)
+      .then((data) => {
+        if (!cancelled) setDoctorsState({ serviceId, list: data.doctors })
+      })
+      .catch(() => {
+        if (!cancelled) setDoctorsState({ serviceId, list: [] })
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [serviceId])
+
+  // Doctor aur date ke free slots
+  const slotsKey = serviceId && doctorId ? `${serviceId}|${doctorId}|${dateKey}|${refreshCount}` : ''
+
+  useEffect(() => {
+    if (!slotsKey) return
+    let cancelled = false
+
+    getSlots(serviceId, doctorId, dateKey)
+      .then((data) => {
+        if (!cancelled) setSlotsState({ key: slotsKey, list: data.slots, error: '' })
+      })
+      .catch((error) => {
+        if (!cancelled) setSlotsState({ key: slotsKey, list: [], error: error.message })
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [slotsKey, serviceId, doctorId, dateKey])
+
+  const service = services.find((s) => String(s.id) === serviceId)
+  const doctorsLoading = Boolean(serviceId) && doctorsState.serviceId !== serviceId
+  const doctors = doctorsState.serviceId === serviceId ? doctorsState.list : []
+  const doctor = doctors.find((d) => String(d.id) === doctorId)
+
+  const slotsReady = slotsState.key === slotsKey
+  const slots = slotsReady ? slotsState.list : []
+  const slotsLoading = Boolean(slotsKey) && !slotsReady
+  const slotsError = slotsReady ? slotsState.error : ''
+
+  const selectedDate = dates.find((d) => d.key === dateKey)
+  const selectedSlot = slots.find((s) => s.time === slot && s.available)
+  const ready = Boolean(service && doctor && selectedSlot)
 
   const handleServiceChange = (e) => {
     setServiceId(e.target.value)
     setDoctorId('')
     setSlot('')
+    setBookError('')
   }
 
   const handleDoctorChange = (e) => {
     setDoctorId(e.target.value)
     setSlot('')
+    setBookError('')
   }
 
   const handleDateChange = (key) => {
     setDateKey(key)
     setSlot('')
+    setBookError('')
   }
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!ready) return
     setIsLoading(true)
-    // Backend se connect baad mein hoga
-    setTimeout(() => {
-      setBooked({ service, doctor, date: selectedDate.full, slot })
+    setBookError('')
+
+    try {
+      await createAppointment({
+        serviceId: service.id,
+        doctorId: doctor.id,
+        date: dateKey,
+        time: selectedSlot.time,
+      })
+      setBooked({
+        service,
+        doctor,
+        date: selectedDate.full,
+        slot: selectedSlot.label,
+      })
+    } catch (error) {
+      setBookError(error.message)
+      // Slot kisi aur ne le liya: slots dobara load karo
+      if (error.status === 409) {
+        setSlot('')
+        setRefreshCount((count) => count + 1)
+      }
+    } finally {
       setIsLoading(false)
-    }, 1000)
+    }
   }
 
   const resetForm = () => {
@@ -107,6 +199,7 @@ function BookAppointment() {
     setDoctorId('')
     setDateKey(dates[0].key)
     setSlot('')
+    setBookError('')
   }
 
   if (booked) {
@@ -152,13 +245,23 @@ function BookAppointment() {
       <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Book Appointment</h1>
       <p className="mt-1 text-sm text-slate-500">Pick a service, doctor, date and time.</p>
 
+      {servicesError && (
+        <p className="mt-3 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-600">{servicesError}</p>
+      )}
+
       <div className="mt-4 grid gap-4 lg:grid-cols-5">
         <section className="space-y-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm lg:col-span-3">
           <div>
             <StepTitle number={1}>Service &amp; Doctor</StepTitle>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <SelectField label="Service" name="service" value={serviceId} onChange={handleServiceChange}>
-                <option value="">Select service</option>
+              <SelectField
+                label="Service"
+                name="service"
+                value={service ? serviceId : ''}
+                onChange={handleServiceChange}
+                disabled={servicesLoading}
+              >
+                <option value="">{servicesLoading ? 'Loading services...' : 'Select service'}</option>
                 {services.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.name}
@@ -168,12 +271,14 @@ function BookAppointment() {
               <SelectField
                 label="Doctor"
                 name="doctor"
-                value={doctorId}
+                value={doctor ? doctorId : ''}
                 onChange={handleDoctorChange}
-                disabled={!service}
+                disabled={!service || doctorsLoading}
               >
-                <option value="">{service ? 'Select doctor' : 'Select a service first'}</option>
-                {availableDoctors.map((d) => (
+                <option value="">
+                  {!service ? 'Select a service first' : doctorsLoading ? 'Loading doctors...' : 'Select doctor'}
+                </option>
+                {doctors.map((d) => (
                   <option key={d.id} value={d.id}>
                     {d.name}
                   </option>
@@ -221,35 +326,42 @@ function BookAppointment() {
             </StepTitle>
 
             <div className="mt-3 min-h-40">
-              {doctor ? (
-                <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-                  {timeSlots.map((t) => {
-                    const isBooked = isSlotBooked(doctor.id, dateKey, t.label)
-                    const isPast = isToday && t.minutes <= nowMinutes
-                    const isDisabled = isBooked || isPast
-                    const isSelected = slot === t.label
-
-                    return (
-                      <button
-                        key={t.label}
-                        disabled={isDisabled}
-                        onClick={() => setSlot(t.label)}
-                        className={`h-9 rounded-lg text-xs font-semibold transition-all duration-200 ${
-                          isSelected
-                            ? 'bg-linear-to-r from-brand-600 to-violet-600 text-white shadow-md shadow-brand-600/25'
-                            : isDisabled
-                            ? 'cursor-not-allowed bg-slate-100 text-slate-300 line-through'
-                            : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-500 hover:text-brand-600'
-                        }`}
-                      >
-                        {t.label}
-                      </button>
-                    )
-                  })}
-                </div>
-              ) : (
+              {!doctor ? (
                 <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-400">
                   Select a service and doctor to see available slots
+                </div>
+              ) : slotsLoading ? (
+                <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className="h-9 animate-pulse rounded-lg bg-slate-100" />
+                  ))}
+                </div>
+              ) : slotsError ? (
+                <div className="flex h-40 items-center justify-center rounded-xl bg-rose-50 px-4 text-center text-sm text-rose-600">
+                  {slotsError}
+                </div>
+              ) : slots.length === 0 ? (
+                <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-slate-300 px-4 text-center text-sm text-slate-400">
+                  The doctor is not available on this day. Please pick another date.
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                  {slots.map((s) => (
+                    <button
+                      key={s.time}
+                      disabled={!s.available}
+                      onClick={() => setSlot(s.time)}
+                      className={`h-9 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                        slot === s.time
+                          ? 'bg-linear-to-r from-brand-600 to-violet-600 text-white shadow-md shadow-brand-600/25'
+                          : !s.available
+                          ? 'cursor-not-allowed bg-slate-100 text-slate-300 line-through'
+                          : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-500 hover:text-brand-600'
+                      }`}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
@@ -263,11 +375,12 @@ function BookAppointment() {
             <SummaryRow label="Service" value={service?.name} />
             <SummaryRow label="Doctor" value={doctor?.name} />
             <SummaryRow label="Date" value={selectedDate.full} />
-            <SummaryRow label="Time" value={slot} />
+            <SummaryRow label="Time" value={selectedSlot?.label} />
             <SummaryRow label="Duration" value={service && `${service.duration} min`} />
           </dl>
 
           <div className="mt-auto pt-4">
+            {bookError && <p className="mb-2 text-center text-xs text-rose-500">{bookError}</p>}
             <div className="mb-3 flex items-center justify-between rounded-xl bg-brand-50 px-4 py-3">
               <span className="text-sm font-medium text-slate-600">Consultation Fee</span>
               <span className="text-lg font-extrabold text-brand-700">

@@ -1,40 +1,12 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
-const user = { firstName: 'Ayesha' }
-
-const stats = [
-  {
-    label: 'Upcoming',
-    value: 2,
-    icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-    gradient: 'from-brand-500 to-violet-500',
-    glow: 'shadow-brand-500/30',
-  },
-  {
-    label: 'Completed',
-    value: 8,
-    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
-    gradient: 'from-emerald-400 to-teal-500',
-    glow: 'shadow-emerald-500/30',
-  },
-  {
-    label: 'Pending',
-    value: 1,
-    icon: 'M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z',
-    gradient: 'from-amber-400 to-orange-500',
-    glow: 'shadow-orange-500/30',
-  },
-]
-
-const upcoming = [
-  { id: 1, service: 'General Physician', provider: 'Dr. Sara Ahmed', initials: 'SA', color: 'from-brand-500 to-violet-500', date: 'Mon, 3 Nov', time: '10:30 AM', status: 'Confirmed' },
-  { id: 2, service: 'Dental Checkup', provider: 'Dr. Hina Malik', initials: 'HM', color: 'from-pink-500 to-rose-500', date: 'Wed, 5 Nov', time: '02:00 PM', status: 'Pending' },
-  { id: 3, service: 'Cardiologist', provider: 'Dr. Usman Raza', initials: 'UR', color: 'from-sky-500 to-cyan-500', date: 'Fri, 7 Nov', time: '11:15 AM', status: 'Confirmed' },
-]
+import { useAuth } from '../../hooks/useAuth'
+import { getMyAppointments } from '../../services/appointmentService'
+import { formatDate, capitalize, getInitials, avatarColor, todayKey } from '../../utils/format'
 
 const statusStyles = {
-  Confirmed: { badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
-  Pending: { badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
+  pending: { badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
+  confirmed: { badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
 }
 
 function getGreeting() {
@@ -45,7 +17,62 @@ function getGreeting() {
 }
 
 function Overview() {
+  const { user } = useAuth()
+  const firstName = user.name.split(' ')[0]
+
+  const [appointments, setAppointments] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+
+    getMyAppointments()
+      .then((data) => {
+        if (!cancelled) setAppointments(data.appointments)
+      })
+      .catch((error) => {
+        if (!cancelled) setLoadError(error.message)
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const today = todayKey()
+  // API nayi se purani order mein deti hai, upcoming ko aane wali date ke hisaab se ulta karte hain
+  const upcoming = appointments
+    .filter((a) => (a.status === 'pending' || a.status === 'confirmed') && a.date >= today)
+    .reverse()
   const next = upcoming[0]
+
+  const stats = [
+    {
+      label: 'Upcoming',
+      value: upcoming.length,
+      icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+      gradient: 'from-brand-500 to-violet-500',
+      glow: 'shadow-brand-500/30',
+    },
+    {
+      label: 'Completed',
+      value: appointments.filter((a) => a.status === 'completed').length,
+      icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+      gradient: 'from-emerald-400 to-teal-500',
+      glow: 'shadow-emerald-500/30',
+    },
+    {
+      label: 'Pending',
+      value: appointments.filter((a) => a.status === 'pending').length,
+      icon: 'M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z',
+      gradient: 'from-amber-400 to-orange-500',
+      glow: 'shadow-orange-500/30',
+    },
+  ]
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -56,20 +83,26 @@ function Overview() {
         <div className="relative flex flex-wrap items-center justify-between gap-5">
           <div>
             <h1 className="text-2xl font-extrabold tracking-tight">
-              {getGreeting()}, {user.firstName}
+              {getGreeting()}, {firstName}
             </h1>
             <p className="mt-1.5 max-w-md text-sm text-white/80">
-              You have {upcoming.length} upcoming appointments. Stay on top of your schedule from here.
+              {isLoading
+                ? 'Loading your appointments...'
+                : upcoming.length > 0
+                ? `You have ${upcoming.length} upcoming ${upcoming.length === 1 ? 'appointment' : 'appointments'}.`
+                : 'You have no upcoming appointments. Book one in a few clicks.'}
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white/15 px-5 py-3 ring-1 ring-white/25 backdrop-blur">
-            <p className="text-xs font-medium uppercase tracking-wider text-white/70">Next appointment</p>
-            <p className="mt-0.5 text-xl font-bold">{next.time}</p>
-            <p className="text-xs text-white/80">
-              {next.date} · {next.provider}
-            </p>
-          </div>
+          {next && (
+            <div className="rounded-2xl bg-white/15 px-5 py-3 ring-1 ring-white/25 backdrop-blur">
+              <p className="text-xs font-medium uppercase tracking-wider text-white/70">Next appointment</p>
+              <p className="mt-0.5 text-xl font-bold">{next.time}</p>
+              <p className="text-xs text-white/80">
+                {formatDate(next.date)} · {next.doctor}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -85,7 +118,7 @@ function Overview() {
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-extrabold leading-none text-slate-900">{stat.value}</p>
+              <p className="text-2xl font-extrabold leading-none text-slate-900">{isLoading ? '–' : stat.value}</p>
               <p className="mt-1 text-sm font-medium text-slate-500">{stat.label}</p>
             </div>
           </div>
@@ -100,30 +133,44 @@ function Overview() {
           </Link>
         </div>
 
-        <ul className="divide-y divide-slate-100">
-          {upcoming.map((item) => (
-            <li key={item.id} className="flex items-center gap-4 px-6 py-3.5 transition-colors hover:bg-slate-50">
-              <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-xs font-bold text-white ${item.color}`}>
-                {item.initials}
-              </div>
+        {loadError ? (
+          <p className="px-6 py-8 text-center text-sm text-rose-600">{loadError}</p>
+        ) : !isLoading && upcoming.length === 0 ? (
+          <div className="px-6 py-8 text-center">
+            <p className="text-sm text-slate-500">Nothing booked yet.</p>
+            <Link
+              to="/dashboard/book"
+              className="btn-gradient mt-3 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+            >
+              Book Appointment
+            </Link>
+          </div>
+        ) : (
+          <ul className="divide-y divide-slate-100">
+            {upcoming.slice(0, 5).map((item) => (
+              <li key={item.id} className="flex items-center gap-4 px-6 py-3.5 transition-colors hover:bg-slate-50">
+                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-xs font-bold text-white ${avatarColor(item.id)}`}>
+                  {getInitials(item.doctor)}
+                </div>
 
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-slate-800">{item.service}</p>
-                <p className="truncate text-xs text-slate-500">with {item.provider}</p>
-              </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-slate-800">{item.service}</p>
+                  <p className="truncate text-xs text-slate-500">with {item.doctor}</p>
+                </div>
 
-              <div className="hidden text-right sm:block">
-                <p className="text-sm font-medium text-slate-700">{item.date}</p>
-                <p className="text-xs text-slate-500">{item.time}</p>
-              </div>
+                <div className="hidden text-right sm:block">
+                  <p className="text-sm font-medium text-slate-700">{formatDate(item.date)}</p>
+                  <p className="text-xs text-slate-500">{item.time}</p>
+                </div>
 
-              <span className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[item.status].badge}`}>
-                <span className={`h-1.5 w-1.5 rounded-full ${statusStyles[item.status].dot}`} />
-                {item.status}
-              </span>
-            </li>
-          ))}
-        </ul>
+                <span className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[item.status].badge}`}>
+                  <span className={`h-1.5 w-1.5 rounded-full ${statusStyles[item.status].dot}`} />
+                  {capitalize(item.status)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </div>
   )

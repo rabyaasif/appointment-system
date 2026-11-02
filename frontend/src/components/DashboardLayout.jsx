@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 const icons = {
   overview:
@@ -21,9 +22,6 @@ const navItems = [
   { to: '/dashboard/appointments', label: 'My Appointments', icon: icons.appointments },
 ]
 
-// Dummy user, baad mein asli data backend se aayega
-const user = { name: 'Ayesha Khan', role: 'Patient', initials: 'AK' }
-
 function Icon({ path, className = 'h-5 w-5' }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -35,6 +33,24 @@ function Icon({ path, className = 'h-5 w-5' }) {
 function DashboardLayout() {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
+
+  const { user: authUser, logout } = useAuth()
+
+  const user = {
+    name: authUser.name,
+    role: authUser.role.charAt(0).toUpperCase() + authUser.role.slice(1),
+    initials: authUser.name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((word) => word[0].toUpperCase())
+      .join(''),
+  }
+
+  const handleLogout = async () => {
+    await logout().catch(() => { })
+    navigate('/login')
+  }
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -66,19 +82,17 @@ function DashboardLayout() {
             end={item.end}
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
-              `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${
-                isActive
-                  ? 'bg-linear-to-r from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30'
-                  : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
+              `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${isActive
+                ? 'bg-linear-to-r from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30'
+                : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
               }`
             }
           >
             {({ isActive }) => (
               <>
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${
-                    isActive ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10'
-                  }`}
+                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${isActive ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10'
+                    }`}
                 >
                   <Icon path={item.icon} className="h-[18px] w-[18px]" />
                 </span>
@@ -98,7 +112,7 @@ function DashboardLayout() {
           <p className="text-xs text-indigo-200/60">{user.role}</p>
         </div>
         <button
-          onClick={() => navigate('/login')}
+          onClick={handleLogout}
           title="Logout"
           aria-label="Logout"
           className="rounded-lg p-2 text-indigo-200/70 transition-colors hover:bg-white/10 hover:text-white"

@@ -62,3 +62,33 @@ export function validateService(body = {}) {
 
   return errors
 }
+
+
+export function validateDoctor(body = {}) {
+  const errors = {}
+  const { name, email, phone, specialty, password } = body
+
+  if (typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100) {
+    errors.name = 'Name must be 2 to 100 characters'
+  }
+
+  if (typeof email !== 'string' || !EMAIL_REGEX.test(email.trim()) || email.trim().length > 150) {
+    errors.email = 'Enter a valid email address'
+  }
+
+  if (!PHONE_REGEX.test(cleanPhone(phone))) {
+    errors.phone = 'Enter a valid mobile number, e.g. 03001234567'
+  }
+
+  if (typeof specialty !== 'string' || specialty.trim().length < 2 || specialty.trim().length > 100) {
+    errors.specialty = 'Specialty must be 2 to 100 characters'
+  }
+
+  if (typeof password !== 'string' || password.length < 8) {
+    errors.password = 'Password must be at least 8 characters'
+  } else if (password.length > 72) {
+    errors.password = 'Password must be 72 characters or fewer'
+  }
+
+  return errors
+}

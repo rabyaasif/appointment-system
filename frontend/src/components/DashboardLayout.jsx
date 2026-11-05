@@ -13,6 +13,8 @@ const icons = {
   logout: 'M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1',
   menu: 'M4 6h16M4 12h16M4 18h16',
   plus: 'M12 4v16m8-8H4',
+  doctors:
+    'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
 }
 
 // Har menu ke saath likha hai kin roles ko nazar aayega
@@ -22,7 +24,8 @@ const navItems = [
   { to: '/dashboard/book', label: 'Book Appointment', icon: icons.calendar, roles: ['patient'] },
   { to: '/dashboard/appointments', label: 'My Appointments', icon: icons.appointments, roles: ['patient'] },
   { to: '/dashboard/manage-appointments', label: 'Appointments', icon: icons.appointments, roles: ['doctor', 'admin'] },
-    { to: '/dashboard/manage-services', label: 'Manage Services', icon: icons.services, roles: ['admin'] },
+  { to: '/dashboard/manage-services', label: 'Manage Services', icon: icons.services, roles: ['admin'] },
+  { to: '/dashboard/manage-doctors', label: 'Manage Doctors', icon: icons.doctors, roles: ['admin'] },
 ]
 
 function Icon({ path, className = 'h-5 w-5' }) {
@@ -53,7 +56,7 @@ function DashboardLayout() {
   const visibleNav = navItems.filter((item) => item.roles.includes(authUser.role))
 
   const handleLogout = async () => {
-    await logout().catch(() => {})
+    await logout().catch(() => { })
     navigate('/login')
   }
 
@@ -87,19 +90,17 @@ function DashboardLayout() {
             end={item.end}
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
-              `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${
-                isActive
-                  ? 'bg-linear-to-r from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30'
-                  : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
+              `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${isActive
+                ? 'bg-linear-to-r from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30'
+                : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
               }`
             }
           >
             {({ isActive }) => (
               <>
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${
-                    isActive ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10'
-                  }`}
+                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${isActive ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10'
+                    }`}
                 >
                   <Icon path={item.icon} className="h-[18px] w-[18px]" />
                 </span>

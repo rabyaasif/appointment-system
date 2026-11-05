@@ -13,6 +13,7 @@ import MyAppointments from './pages/dashboard/MyAppointments'
 import ManageAppointments from './pages/dashboard/ManageAppointments'
 import ManageServices from './pages/dashboard/ManageServices'
 import ManageDoctors from './pages/dashboard/ManageDoctors'
+import MySchedule from './pages/dashboard/MySchedule'
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
 
           <Route element={<RoleRoute roles={['doctor', 'admin']} />}>
             <Route path="manage-appointments" element={<ManageAppointments />} />
+          </Route>
+
+          <Route element={<RoleRoute roles={['doctor']} />}>
+            <Route path="my-schedule" element={<MySchedule />} />
           </Route>
 
           <Route element={<RoleRoute roles={['admin']} />}>

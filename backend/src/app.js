@@ -7,6 +7,7 @@ import serviceRoutes from './routes/serviceRoutes.js'
 import appointmentRoutes from './routes/appointmentRoutes.js'
 import manageRoutes from './routes/manageRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
+import doctorRoutes from './routes/doctorRoutes.js'
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use('/api/services', serviceRoutes)
 app.use('/api/appointments', appointmentRoutes)
 app.use('/api/manage', manageRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/doctor', doctorRoutes)
 
 // Jo route na mile uska jawab
 app.use((req, res) => {

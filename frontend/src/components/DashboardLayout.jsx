@@ -15,17 +15,19 @@ const icons = {
   plus: 'M12 4v16m8-8H4',
   doctors:
     'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+  clock: 'M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z',
 }
 
 // Har menu ke saath likha hai kin roles ko nazar aayega
 const navItems = [
-    { to: '/dashboard', label: 'Overview', icon: icons.overview, end: true, roles: ['patient', 'doctor', 'admin'] },
+  { to: '/dashboard', label: 'Overview', icon: icons.overview, end: true, roles: ['patient', 'doctor', 'admin'] },
   { to: '/dashboard/services', label: 'Services', icon: icons.services, roles: ['patient'] },
   { to: '/dashboard/book', label: 'Book Appointment', icon: icons.calendar, roles: ['patient'] },
   { to: '/dashboard/appointments', label: 'My Appointments', icon: icons.appointments, roles: ['patient'] },
   { to: '/dashboard/manage-appointments', label: 'Appointments', icon: icons.appointments, roles: ['doctor', 'admin'] },
   { to: '/dashboard/manage-services', label: 'Manage Services', icon: icons.services, roles: ['admin'] },
   { to: '/dashboard/manage-doctors', label: 'Manage Doctors', icon: icons.doctors, roles: ['admin'] },
+  { to: '/dashboard/my-schedule', label: 'My Schedule', icon: icons.clock, roles: ['doctor'] },
 ]
 
 function Icon({ path, className = 'h-5 w-5' }) {

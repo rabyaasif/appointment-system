@@ -22,6 +22,7 @@ const navItems = [
   { to: '/dashboard/book', label: 'Book Appointment', icon: icons.calendar, roles: ['patient'] },
   { to: '/dashboard/appointments', label: 'My Appointments', icon: icons.appointments, roles: ['patient'] },
   { to: '/dashboard/manage-appointments', label: 'Appointments', icon: icons.appointments, roles: ['doctor', 'admin'] },
+    { to: '/dashboard/manage-services', label: 'Manage Services', icon: icons.services, roles: ['admin'] },
 ]
 
 function Icon({ path, className = 'h-5 w-5' }) {

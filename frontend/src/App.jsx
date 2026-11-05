@@ -4,11 +4,13 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import VerifyOtp from './pages/VerifyOtp'
 import ProtectedRoute from './components/ProtectedRoute'
+import RoleRoute from './components/RoleRoute'
 import DashboardLayout from './components/DashboardLayout'
-import Overview from './pages/dashboard/Overview'
+import DashboardHome from './pages/dashboard/DashboardHome'
 import Services from './pages/dashboard/Services'
 import BookAppointment from './pages/dashboard/BookAppointment'
 import MyAppointments from './pages/dashboard/MyAppointments'
+import ManageAppointments from './pages/dashboard/ManageAppointments'
 
 function App() {
   return (
@@ -20,10 +22,17 @@ function App() {
 
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Overview />} />
-          <Route path="services" element={<Services />} />
-          <Route path="book" element={<BookAppointment />} />
-          <Route path="appointments" element={<MyAppointments />} />
+          <Route index element={<DashboardHome />} />
+
+          <Route element={<RoleRoute roles={['patient']} />}>
+            <Route path="services" element={<Services />} />
+            <Route path="book" element={<BookAppointment />} />
+            <Route path="appointments" element={<MyAppointments />} />
+          </Route>
+
+          <Route element={<RoleRoute roles={['doctor', 'admin']} />}>
+            <Route path="manage-appointments" element={<ManageAppointments />} />
+          </Route>
         </Route>
       </Route>
 

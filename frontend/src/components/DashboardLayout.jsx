@@ -15,11 +15,13 @@ const icons = {
   plus: 'M12 4v16m8-8H4',
 }
 
+// Har menu ke saath likha hai kin roles ko nazar aayega
 const navItems = [
-  { to: '/dashboard', label: 'Overview', icon: icons.overview, end: true },
-  { to: '/dashboard/services', label: 'Services', icon: icons.services },
-  { to: '/dashboard/book', label: 'Book Appointment', icon: icons.calendar },
-  { to: '/dashboard/appointments', label: 'My Appointments', icon: icons.appointments },
+  { to: '/dashboard', label: 'Overview', icon: icons.overview, end: true, roles: ['patient'] },
+  { to: '/dashboard/services', label: 'Services', icon: icons.services, roles: ['patient'] },
+  { to: '/dashboard/book', label: 'Book Appointment', icon: icons.calendar, roles: ['patient'] },
+  { to: '/dashboard/appointments', label: 'My Appointments', icon: icons.appointments, roles: ['patient'] },
+  { to: '/dashboard/manage-appointments', label: 'Appointments', icon: icons.appointments, roles: ['doctor', 'admin'] },
 ]
 
 function Icon({ path, className = 'h-5 w-5' }) {
@@ -33,13 +35,13 @@ function Icon({ path, className = 'h-5 w-5' }) {
 function DashboardLayout() {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
-
   const { user: authUser, logout } = useAuth()
 
   const user = {
     name: authUser.name,
     role: authUser.role.charAt(0).toUpperCase() + authUser.role.slice(1),
     initials: authUser.name
+      .replace(/^Dr\.?\s+/i, '')
       .split(' ')
       .filter(Boolean)
       .slice(0, 2)
@@ -47,8 +49,10 @@ function DashboardLayout() {
       .join(''),
   }
 
+  const visibleNav = navItems.filter((item) => item.roles.includes(authUser.role))
+
   const handleLogout = async () => {
-    await logout().catch(() => { })
+    await logout().catch(() => {})
     navigate('/login')
   }
 
@@ -75,24 +79,26 @@ function DashboardLayout() {
       </p>
 
       <nav className="relative flex-1 space-y-1.5">
-        {navItems.map((item) => (
+        {visibleNav.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             end={item.end}
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
-              `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${isActive
-                ? 'bg-linear-to-r from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30'
-                : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
+              `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${
+                isActive
+                  ? 'bg-linear-to-r from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30'
+                  : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
               }`
             }
           >
             {({ isActive }) => (
               <>
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${isActive ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10'
-                    }`}
+                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${
+                    isActive ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10'
+                  }`}
                 >
                   <Icon path={item.icon} className="h-[18px] w-[18px]" />
                 </span>
@@ -147,13 +153,15 @@ function DashboardLayout() {
             <p className="text-sm font-medium text-slate-500">{today}</p>
           </div>
 
-          <Link
-            to="/dashboard/book"
-            className="btn-gradient flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
-          >
-            <Icon path={icons.plus} className="h-4 w-4" />
-            Book Appointment
-          </Link>
+          {authUser.role === 'patient' && (
+            <Link
+              to="/dashboard/book"
+              className="btn-gradient flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+            >
+              <Icon path={icons.plus} className="h-4 w-4" />
+              Book Appointment
+            </Link>
+          )}
         </header>
 
         <main className="flex-1 overflow-y-auto bg-linear-to-br from-slate-50 to-brand-50/50 p-4 sm:p-6 lg:px-8 lg:py-6">

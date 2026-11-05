@@ -1,13 +1,12 @@
-import { Navigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import Overview from './Overview'
+import ManageOverview from './ManageOverview'
 
-// Patient ko apna Overview, doctor aur admin ko Appointments page
+// Patient ko apna Overview, doctor aur admin ko stats wala Overview
 function DashboardHome() {
   const { user } = useAuth()
 
-  if (user.role === 'patient') return <Overview />
-  return <Navigate to="/dashboard/manage-appointments" replace />
+  return user.role === 'patient' ? <Overview /> : <ManageOverview />
 }
 
 export default DashboardHome

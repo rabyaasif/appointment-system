@@ -101,3 +101,98 @@ export async function updateStatus(req, res) {
 
   res.json({ success: true, message: `Appointment ${status}`, status })
 }
+
+
+export async function getStats(req, res) {
+  const isDoctor = req.user.role === 'doctor'
+  const scopeSql = isDoctor ? ' AND a.doctor_id = ?' : ''
+  const scopeParams = isDoctor ? [req.user.id] : []
+
+  const today = toDateString(new Date())
+  const days = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date()
+    date.setDate(date.getDate() + i)
+    return toDateString(date)
+  })
+
+  // Har status ki ginti aur fees ka total
+  const [statusRows] = await pool.execute(
+    `SELECT a.status, COUNT(*) AS total, COALESCE(SUM(s.price), 0) AS amount
+     FROM appointments a
+     JOIN services s ON s.id = a.service_id
+     WHERE 1 = 1${scopeSql}
+     GROUP BY a.status`,
+    scopeParams
+  )
+
+  const byStatus = { pending: 0, confirmed: 0, completed: 0, cancelled: 0 }
+  let revenue = 0
+  for (const row of statusRows) {
+    byStatus[row.status] = Number(row.total)
+    if (row.status === 'completed') revenue = Number(row.amount)
+  }
+
+  // Aaj ki appointments (cancelled ke baghair)
+  const [todayRows] = await pool.execute(
+    `SELECT COUNT(*) AS total
+     FROM appointments a
+     WHERE a.appointment_date = ? AND a.status <> 'cancelled'${scopeSql}`,
+    [today, ...scopeParams]
+  )
+
+  // Agle 7 din ka chart
+  const [weekRows] = await pool.execute(
+    `SELECT DATE_FORMAT(a.appointment_date, '%Y-%m-%d') AS date, COUNT(*) AS total
+     FROM appointments a
+     WHERE a.appointment_date BETWEEN ? AND ? AND a.status <> 'cancelled'${scopeSql}
+     GROUP BY a.appointment_date`,
+    [days[0], days[6], ...scopeParams]
+  )
+  const week = days.map((date) => ({
+    date,
+    total: Number(weekRows.find((row) => row.date === date)?.total ?? 0),
+  }))
+
+  // Aaj ka schedule
+  const [todayList] = await pool.execute(
+    `SELECT a.id, p.name AS patient, d.name AS doctor, s.name AS service,
+            TIME_FORMAT(a.start_time, '%h:%i %p') AS time, a.status
+     FROM appointments a
+     JOIN users p ON p.id = a.patient_id
+     JOIN users d ON d.id = a.doctor_id
+     JOIN services s ON s.id = a.service_id
+     WHERE a.appointment_date = ? AND a.status <> 'cancelled'${scopeSql}
+     ORDER BY a.start_time
+     LIMIT 8`,
+    [today, ...scopeParams]
+  )
+
+  // Poori clinic ki ginti sirf admin ke liye
+  let totals = null
+  if (!isDoctor) {
+    const [[counts]] = await pool.execute(
+      `SELECT (SELECT COUNT(*) FROM users WHERE role = 'doctor') AS doctors,
+              (SELECT COUNT(*) FROM users WHERE role = 'patient') AS patients,
+              (SELECT COUNT(*) FROM services) AS services`
+    )
+    totals = {
+      doctors: Number(counts.doctors),
+      patients: Number(counts.patients),
+      services: Number(counts.services),
+    }
+  }
+
+  res.json({
+    success: true,
+    stats: {
+      today: Number(todayRows[0].total),
+      pending: byStatus.pending,
+      completed: byStatus.completed,
+      revenue,
+      byStatus,
+      week,
+      todayList,
+      totals,
+    },
+  })
+}

@@ -19,7 +19,7 @@ const icons = {
 
 // Har menu ke saath likha hai kin roles ko nazar aayega
 const navItems = [
-  { to: '/dashboard', label: 'Overview', icon: icons.overview, end: true, roles: ['patient'] },
+    { to: '/dashboard', label: 'Overview', icon: icons.overview, end: true, roles: ['patient', 'doctor', 'admin'] },
   { to: '/dashboard/services', label: 'Services', icon: icons.services, roles: ['patient'] },
   { to: '/dashboard/book', label: 'Book Appointment', icon: icons.calendar, roles: ['patient'] },
   { to: '/dashboard/appointments', label: 'My Appointments', icon: icons.appointments, roles: ['patient'] },

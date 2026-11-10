@@ -104,7 +104,7 @@ function DashboardLayout() {
                   className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${isActive ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10'
                     }`}
                 >
-                  <Icon path={item.icon} className="h-[18px] w-[18px]" />
+                  <Icon path={item.icon} className="h-4.5 w-4.5" />
                 </span>
                 {item.label}
               </>
@@ -127,7 +127,7 @@ function DashboardLayout() {
           aria-label="Logout"
           className="rounded-lg p-2 text-indigo-200/70 transition-colors hover:bg-white/10 hover:text-white"
         >
-          <Icon path={icons.logout} className="h-[18px] w-[18px]" />
+          <Icon path={icons.logout} className="h-4.5 w-4.5" />
         </button>
       </div>
     </div>

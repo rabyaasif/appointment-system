@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react'
+import Card from '../../components/ui/Card'
+import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getManagedAppointments, updateAppointmentStatus } from '../../services/manageService'
 import { formatDate, capitalize, getInitials, avatarColor } from '../../utils/format'
 
 const tabs = ['All', 'Pending', 'Confirmed', 'Completed', 'Cancelled']
-
-const statusStyles = {
-  pending: { badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
-  confirmed: { badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
-  completed: { badge: 'bg-sky-50 text-sky-700', dot: 'bg-sky-500' },
-  cancelled: { badge: 'bg-rose-50 text-rose-700', dot: 'bg-rose-500' },
-}
 
 const searchIcon = 'M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z'
 
@@ -102,7 +97,7 @@ function ManageAppointments() {
             onClick={() => setActiveTab(tab)}
             className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
               activeTab === tab
-                ? 'bg-linear-to-r from-primary-600 to-violet-600 text-white shadow-md shadow-primary-600/25'
+                ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
                 : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
             }`}
           >
@@ -119,7 +114,7 @@ function ManageAppointments() {
       </div>
 
       {actionError && (
-        <p className="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-600">{actionError}</p>
+        <p className="mt-4 rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">{actionError}</p>
       )}
 
       {isLoading ? (
@@ -129,7 +124,7 @@ function ManageAppointments() {
           ))}
         </ul>
       ) : loadError ? (
-        <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center text-sm text-rose-600">
+        <div className="mt-5 rounded-2xl border border-danger-200 bg-danger-50 p-8 text-center text-sm text-danger-600">
           {loadError}
         </div>
       ) : filtered.length === 0 ? (
@@ -141,9 +136,12 @@ function ManageAppointments() {
           {filtered.map((item) => {
             const busy = busyId === item.id
             return (
-              <li
+              <Card
+                as="li"
                 key={item.id}
-                className="flex flex-wrap items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md"
+                padding="sm"
+                interactive
+                className="flex flex-wrap items-center gap-4"
               >
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-sm font-bold text-white ${avatarColor(item.id)}`}
@@ -168,19 +166,14 @@ function ManageAppointments() {
 
                 <p className="w-20 text-sm font-bold text-slate-800">Rs {item.price.toLocaleString()}</p>
 
-                <span
-                  className={`flex w-28 items-center justify-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[item.status].badge}`}
-                >
-                  <span className={`h-1.5 w-1.5 rounded-full ${statusStyles[item.status].dot}`} />
-                  {capitalize(item.status)}
-                </span>
+                <StatusBadge status={item.status} className="w-28 justify-center" />
 
                 <div className="flex w-44 justify-end gap-2">
                   {item.status === 'pending' && (
                     <button
                       disabled={busy}
                       onClick={() => changeStatus(item, 'confirmed')}
-                      className="rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-emerald-600 disabled:opacity-60"
+                      className="rounded-lg bg-success-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-success-600 disabled:opacity-60"
                     >
                       {busy ? '...' : 'Confirm'}
                     </button>
@@ -189,7 +182,7 @@ function ManageAppointments() {
                     <button
                       disabled={busy}
                       onClick={() => changeStatus(item, 'completed')}
-                      className="rounded-lg bg-sky-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-sky-600 disabled:opacity-60"
+                      className="rounded-lg bg-info-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-info-600 disabled:opacity-60"
                     >
                       {busy ? '...' : 'Complete'}
                     </button>
@@ -198,13 +191,13 @@ function ManageAppointments() {
                     <button
                       disabled={busy}
                       onClick={() => setCancelTarget(item)}
-                      className="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-semibold text-rose-600 transition-colors hover:bg-rose-50 disabled:opacity-60"
+                      className="rounded-lg border border-danger-200 px-3 py-1.5 text-xs font-semibold text-danger-600 transition-colors hover:bg-danger-50 disabled:opacity-60"
                     >
                       Cancel
                     </button>
                   )}
                 </div>
-              </li>
+              </Card>
             )
           })}
         </ul>
@@ -214,7 +207,7 @@ function ManageAppointments() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/50" onClick={() => setCancelTarget(null)} />
           <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-rose-50 text-rose-500">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
               <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
@@ -234,7 +227,7 @@ function ManageAppointments() {
               </button>
               <button
                 onClick={() => changeStatus(cancelTarget, 'cancelled')}
-                className="h-11 flex-1 rounded-xl bg-rose-500 text-sm font-semibold text-white shadow-lg shadow-rose-500/25 transition-all hover:bg-rose-600 active:scale-[0.98]"
+                className="h-11 flex-1 rounded-xl bg-danger-500 text-sm font-semibold text-white shadow-lg shadow-danger-500/25 transition-all hover:bg-danger-600 active:scale-[0.98]"
               >
                 Yes, cancel
               </button>

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import Card from '../../components/ui/Card'
+import Badge from '../../components/ui/Badge'
 import InputField from '../../components/InputField'
 import Button from '../../components/Button'
 import { getServices } from '../../services/serviceService'
@@ -143,7 +145,7 @@ function ManageDoctors() {
 
         <button
           onClick={openAdd}
-          className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+          className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d={plusIcon} />
@@ -155,11 +157,11 @@ function ManageDoctors() {
       {isLoading ? (
         <ul className="mt-5 space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
-            <li key={i} className="h-[74px] animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
+            <li key={i} className="h-18.5 animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
           ))}
         </ul>
       ) : loadError ? (
-        <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center text-sm text-rose-600">
+        <div className="mt-5 rounded-2xl border border-danger-200 bg-danger-50 p-8 text-center text-sm text-danger-600">
           {loadError}
         </div>
       ) : doctors.length === 0 ? (
@@ -169,9 +171,12 @@ function ManageDoctors() {
       ) : (
         <ul className="mt-5 space-y-3">
           {doctors.map((doctor) => (
-            <li
+            <Card
+              as="li"
               key={doctor.id}
-              className="flex flex-wrap items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md"
+              padding="sm"
+              interactive
+              className="flex flex-wrap items-center gap-4"
             >
               <div
                 className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-sm font-bold text-white ${avatarColor(doctor.id)}`}
@@ -189,15 +194,11 @@ function ManageDoctors() {
                 <p className="truncate text-xs text-slate-500">{doctor.phone}</p>
               </div>
 
-              <span
-                className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                  doctor.serviceIds.length > 0 ? 'bg-primary-50 text-primary-700' : 'bg-amber-50 text-amber-700'
-                }`}
-              >
+              <Badge variant={doctor.serviceIds.length > 0 ? 'primary' : 'warning'}>
                 {doctor.serviceIds.length > 0
                   ? `${doctor.serviceIds.length} ${doctor.serviceIds.length === 1 ? 'service' : 'services'}`
                   : 'No services'}
-              </span>
+              </Badge>
 
               <button
                 onClick={() => openServices(doctor)}
@@ -205,7 +206,7 @@ function ManageDoctors() {
               >
                 Manage Services
               </button>
-            </li>
+            </Card>
           ))}
         </ul>
       )}
@@ -271,7 +272,7 @@ function ManageDoctors() {
                 autoComplete="new-password"
               />
 
-              {formError && <p className="text-center text-sm text-red-500">{formError}</p>}
+              {formError && <p className="text-center text-sm text-danger-500">{formError}</p>}
 
               <div className="flex gap-3 pt-2">
                 <button
@@ -329,7 +330,7 @@ function ManageDoctors() {
               })}
             </div>
 
-            {servicesError && <p className="mt-3 text-center text-sm text-rose-500">{servicesError}</p>}
+            {servicesError && <p className="mt-3 text-center text-sm text-danger-500">{servicesError}</p>}
 
             <div className="mt-5 flex gap-3">
               <button

@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Card from '../../components/ui/Card'
+import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getStats } from '../../services/manageService'
 import { capitalize, getInitials, avatarColor } from '../../utils/format'
 
-const statusStyles = {
-  pending: { badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500', bar: 'bg-amber-400' },
-  confirmed: { badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500', bar: 'bg-emerald-500' },
-  completed: { badge: 'bg-sky-50 text-sky-700', dot: 'bg-sky-500', bar: 'bg-sky-500' },
-  cancelled: { badge: 'bg-rose-50 text-rose-700', dot: 'bg-rose-500', bar: 'bg-rose-400' },
+// Progress bar ke rang (status ke token ke mutabiq, DESIGN_SYSTEM.md section 2.2)
+const statusBars = {
+  pending: 'bg-warning-500',
+  confirmed: 'bg-success-500',
+  completed: 'bg-info-500',
+  cancelled: 'bg-danger-500',
 }
 
 const STATUS_ORDER = ['pending', 'confirmed', 'completed', 'cancelled']
@@ -59,29 +62,29 @@ function ManageOverview() {
       label: 'Today',
       value: stats?.today,
       icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-      gradient: 'from-primary-500 to-violet-500',
+      gradient: 'from-primary-500 to-secondary-500',
       glow: 'shadow-primary-500/30',
     },
     {
       label: 'Pending requests',
       value: stats?.pending,
       icon: 'M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z',
-      gradient: 'from-amber-400 to-orange-500',
-      glow: 'shadow-orange-500/30',
+      gradient: 'from-warning-500 to-warning-600',
+      glow: 'shadow-warning-500/30',
     },
     {
       label: 'Completed',
       value: stats?.completed,
       icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
-      gradient: 'from-emerald-400 to-teal-500',
-      glow: 'shadow-emerald-500/30',
+      gradient: 'from-success-500 to-success-600',
+      glow: 'shadow-success-500/30',
     },
     {
       label: 'Revenue',
       value: stats ? `Rs ${stats.revenue.toLocaleString()}` : undefined,
       icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-      gradient: 'from-fuchsia-500 to-pink-500',
-      glow: 'shadow-fuchsia-500/30',
+      gradient: 'from-accent-500 to-pink-500',
+      glow: 'shadow-accent-500/30',
     },
   ]
 
@@ -90,7 +93,7 @@ function ManageOverview() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <section className="relative overflow-hidden rounded-3xl bg-linear-to-r from-primary-600 via-violet-600 to-fuchsia-500 p-6 text-white shadow-xl shadow-primary-600/20">
+      <section className="gradient-hero relative overflow-hidden rounded-3xl p-6 text-white shadow-xl shadow-primary-600/20">
         <div className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-20 right-40 h-48 w-48 rounded-full bg-white/10" />
 
@@ -122,14 +125,16 @@ function ManageOverview() {
       </section>
 
       {loadError && (
-        <p className="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-600">{loadError}</p>
+        <p className="mt-4 rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">{loadError}</p>
       )}
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((card) => (
-          <div
+          <Card
             key={card.label}
-            className="flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            padding="sm"
+            interactive
+            className="flex items-center gap-4 hover:-translate-y-0.5"
           >
             <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-linear-to-br text-white shadow-lg ${card.gradient} ${card.glow}`}>
               <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -142,12 +147,12 @@ function ManageOverview() {
               </p>
               <p className="mt-1 truncate text-sm font-medium text-slate-500">{card.label}</p>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-5">
-        <section className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm lg:col-span-3">
+        <Card as="section" className="lg:col-span-3">
           <h2 className="text-base font-bold text-slate-900">Next 7 days</h2>
           <p className="text-xs text-slate-500">Appointments per day (cancelled ones not counted)</p>
 
@@ -158,7 +163,7 @@ function ManageOverview() {
                   <span className="text-xs font-semibold text-slate-600">{day.total}</span>
                   <div className="flex w-full flex-1 items-end">
                     <div
-                      className="w-full rounded-t-lg bg-linear-to-t from-primary-600 to-violet-500 transition-all duration-500"
+                      className="w-full rounded-t-lg bg-linear-to-t from-primary-600 to-secondary-500 transition-all duration-500"
                       style={{ height: `${Math.max((day.total / maxWeek) * 100, 4)}%` }}
                     />
                   </div>
@@ -169,9 +174,9 @@ function ManageOverview() {
           ) : (
             <div className="mt-4 h-44 animate-pulse rounded-xl bg-slate-100" />
           )}
-        </section>
+        </Card>
 
-        <section className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm lg:col-span-2">
+        <Card as="section" className="lg:col-span-2">
           <h2 className="text-base font-bold text-slate-900">By status</h2>
           <p className="text-xs text-slate-500">All appointments so far</p>
 
@@ -187,7 +192,7 @@ function ManageOverview() {
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-slate-100">
                     <div
-                      className={`h-full rounded-full transition-all duration-500 ${statusStyles[status].bar}`}
+                      className={`h-full rounded-full transition-all duration-500 ${statusBars[status]}`}
                       style={{ width: `${percent}%` }}
                     />
                   </div>
@@ -195,10 +200,10 @@ function ManageOverview() {
               )
             })}
           </ul>
-        </section>
+        </Card>
       </div>
 
-      <section className="mt-4 rounded-2xl border border-slate-200/70 bg-white shadow-sm">
+      <Card as="section" padding="none" className="mt-4">
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <h2 className="text-base font-bold text-slate-900">Today&apos;s schedule</h2>
           <Link
@@ -229,15 +234,12 @@ function ManageOverview() {
 
                 <p className="text-sm font-medium text-slate-700">{item.time}</p>
 
-                <span className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[item.status].badge}`}>
-                  <span className={`h-1.5 w-1.5 rounded-full ${statusStyles[item.status].dot}`} />
-                  {capitalize(item.status)}
-                </span>
+                <StatusBadge status={item.status} />
               </li>
             ))}
           </ul>
         )}
-      </section>
+      </Card>
     </div>
   )
 }

@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Card from '../../components/ui/Card'
+import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getMyAppointments } from '../../services/appointmentService'
-import { formatDate, capitalize, getInitials, avatarColor, todayKey } from '../../utils/format'
-
-const statusStyles = {
-  pending: { badge: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
-  confirmed: { badge: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
-}
+import { formatDate, getInitials, avatarColor, todayKey } from '../../utils/format'
 
 function getGreeting() {
   const hour = new Date().getHours()
@@ -55,28 +52,28 @@ function Overview() {
       label: 'Upcoming',
       value: upcoming.length,
       icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-      gradient: 'from-primary-500 to-violet-500',
+      gradient: 'from-primary-500 to-secondary-500',
       glow: 'shadow-primary-500/30',
     },
     {
       label: 'Completed',
       value: appointments.filter((a) => a.status === 'completed').length,
       icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
-      gradient: 'from-emerald-400 to-teal-500',
-      glow: 'shadow-emerald-500/30',
+      gradient: 'from-success-500 to-success-600',
+      glow: 'shadow-success-500/30',
     },
     {
       label: 'Pending',
       value: appointments.filter((a) => a.status === 'pending').length,
       icon: 'M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z',
-      gradient: 'from-amber-400 to-orange-500',
-      glow: 'shadow-orange-500/30',
+      gradient: 'from-warning-500 to-warning-600',
+      glow: 'shadow-warning-500/30',
     },
   ]
 
   return (
     <div className="mx-auto max-w-5xl">
-      <section className="relative overflow-hidden rounded-3xl bg-linear-to-r from-primary-600 via-violet-600 to-fuchsia-500 p-6 text-white shadow-xl shadow-primary-600/20">
+      <section className="relative overflow-hidden rounded-3xl gradient-hero p-6 text-white shadow-xl shadow-primary-600/20">
         <div className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-20 right-40 h-48 w-48 rounded-full bg-white/10" />
 
@@ -89,8 +86,8 @@ function Overview() {
               {isLoading
                 ? 'Loading your appointments...'
                 : upcoming.length > 0
-                ? `You have ${upcoming.length} upcoming ${upcoming.length === 1 ? 'appointment' : 'appointments'}.`
-                : 'You have no upcoming appointments. Book one in a few clicks.'}
+                  ? `You have ${upcoming.length} upcoming ${upcoming.length === 1 ? 'appointment' : 'appointments'}.`
+                  : 'You have no upcoming appointments. Book one in a few clicks.'}
             </p>
           </div>
 
@@ -108,9 +105,11 @@ function Overview() {
 
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
         {stats.map((stat) => (
-          <div
+          <Card
             key={stat.label}
-            className="flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            padding="sm"
+            interactive
+            className="flex items-center gap-4 hover:-translate-y-0.5"
           >
             <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br text-white shadow-lg ${stat.gradient} ${stat.glow}`}>
               <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -121,11 +120,11 @@ function Overview() {
               <p className="text-2xl font-extrabold leading-none text-slate-900">{isLoading ? '–' : stat.value}</p>
               <p className="mt-1 text-sm font-medium text-slate-500">{stat.label}</p>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
-      <section className="mt-4 rounded-2xl border border-slate-200/70 bg-white shadow-sm">
+      <Card as="section" padding="none" className="mt-4">
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <h2 className="text-base font-bold text-slate-900">Upcoming Appointments</h2>
           <Link to="/dashboard/appointments" className="text-sm font-semibold text-primary-600 hover:text-primary-700 hover:underline">
@@ -134,13 +133,13 @@ function Overview() {
         </div>
 
         {loadError ? (
-          <p className="px-6 py-8 text-center text-sm text-rose-600">{loadError}</p>
+          <p className="px-6 py-8 text-center text-sm text-danger-600">{loadError}</p>
         ) : !isLoading && upcoming.length === 0 ? (
           <div className="px-6 py-8 text-center">
             <p className="text-sm text-slate-500">Nothing booked yet.</p>
             <Link
               to="/dashboard/book"
-              className="gradient-accent mt-3 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+              className="gradient-accent mt-3 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
             >
               Book Appointment
             </Link>
@@ -163,15 +162,12 @@ function Overview() {
                   <p className="text-xs text-slate-500">{item.time}</p>
                 </div>
 
-                <span className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[item.status].badge}`}>
-                  <span className={`h-1.5 w-1.5 rounded-full ${statusStyles[item.status].dot}`} />
-                  {capitalize(item.status)}
-                </span>
+                <StatusBadge status={item.status} />
               </li>
             ))}
           </ul>
         )}
-      </section>
+      </Card>
     </div>
   )
 }

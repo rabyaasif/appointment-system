@@ -300,9 +300,9 @@ function BookAppointment() {
                       : 'border border-slate-200 bg-white text-slate-600 hover:border-primary-500 hover:text-primary-600'
                   }`}
                 >
-                  <span className="text-[11px] font-medium opacity-80">{d.weekday}</span>
+                  <span className="text-xs font-medium opacity-80">{d.weekday}</span>
                   <span className="text-base font-bold leading-tight">{d.day}</span>
-                  <span className="text-[11px] opacity-80">{d.month}</span>
+                  <span className="text-xs opacity-80">{d.month}</span>
                 </button>
               ))}
             </div>
@@ -312,7 +312,7 @@ function BookAppointment() {
             <StepTitle
               number={3}
               right={
-                <div className="flex items-center gap-3 text-[11px] text-slate-500">
+                <div className="flex items-center gap-3 text-xs text-slate-500">
                   <span className="flex items-center gap-1">
                     <span className="h-2 w-2 rounded-full border border-slate-300 bg-white" /> Available
                   </span>

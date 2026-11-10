@@ -28,7 +28,7 @@
 - Sizes: `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, `text-3xl`
 - Custom size outside the Tailwind scale: `text-[11px]`
 - Weights: `font-medium`, `font-semibold`, `font-bold`, `font-extrabold`
-- `text-[11px]` is used 8 times in 8 files. Decision: replace with `text-xs`.
+- `text-[11px]` is used 6 times in 3 files. Decision: replace with `text-xs`.
 
 ### Inconsistencies
 
@@ -151,8 +151,8 @@ Avatars (the round circle with initials) use only the three colors below, so the
 | Token | Gradient | Classes |
 |---|---|---|
 | `avatar-1` | primary to secondary | `from-primary-500 to-secondary-500` |
-| `avatar-2` | secondary to accent | `from-secondary-500 to-fuchsia-500` |
-| `avatar-3` | accent to pink | `from-fuchsia-500 to-pink-500` |
+| `avatar-2` | secondary to accent | `from-secondary-500 to-accent-500` |
+| `avatar-3` | accent to pink | `from-accent-500 to-pink-500` |
 
 Rules:
 

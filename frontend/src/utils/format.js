@@ -1,10 +1,7 @@
 const AVATAR_COLORS = [
-  'from-primary-500 to-violet-500',
-  'from-pink-500 to-rose-500',
-  'from-sky-500 to-cyan-500',
-  'from-emerald-500 to-teal-500',
-  'from-amber-400 to-orange-500',
-  'from-fuchsia-500 to-purple-500',
+  'from-primary-500 to-secondary-500',
+  'from-secondary-500 to-accent-500',
+  'from-accent-500 to-pink-500',
 ]
 
 export function formatDate(iso) {

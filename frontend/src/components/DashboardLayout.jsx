@@ -80,7 +80,7 @@ function DashboardLayout() {
         <span className="text-base font-bold text-white">Smart Appointment</span>
       </div>
 
-      <p className="relative mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest text-indigo-300/50">
+      <p className="relative mb-2 px-3 text-xs font-semibold uppercase tracking-widest text-indigo-300/50">
         Menu
       </p>
 

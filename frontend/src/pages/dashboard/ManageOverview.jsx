@@ -113,7 +113,7 @@ function ManageOverview() {
               ].map(([label, value]) => (
                 <div key={label} className="rounded-2xl bg-white/15 px-4 py-2.5 text-center ring-1 ring-white/25 backdrop-blur">
                   <p className="text-lg font-bold leading-none">{value}</p>
-                  <p className="mt-1 text-[11px] uppercase tracking-wider text-white/70">{label}</p>
+                  <p className="mt-1 text-xs uppercase tracking-wider text-white/70">{label}</p>
                 </div>
               ))}
             </div>
@@ -162,7 +162,7 @@ function ManageOverview() {
                       style={{ height: `${Math.max((day.total / maxWeek) * 100, 4)}%` }}
                     />
                   </div>
-                  <span className="text-[11px] text-slate-500">{dayLabel(day.date)}</span>
+                  <span className="text-xs text-slate-500">{dayLabel(day.date)}</span>
                 </div>
               ))}
             </div>

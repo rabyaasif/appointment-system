@@ -189,3 +189,35 @@ Rule: use Tailwind's 4px scale (`1` = 4px, `2` = 8px, `3` = 12px, `4` = 16px, `5
 | Time slot button | `h-9` |
 | Avatar (list) | `h-10 w-10` or `h-11 w-11` |
 | Stat icon | `h-12 w-12` |
+
+## 3. Components
+
+All components live in `frontend/src/components/ui/`.
+
+### Card
+
+The white box used for lists, forms and stats. Classes: `rounded-2xl border border-slate-200/70 bg-white shadow-sm`.
+
+| Prop | Values | Default | Notes |
+|---|---|---|---|
+| `padding` | `none`, `sm`, `md` | `md` | `sm` = `p-4` for list rows, `md` = `p-5` for large cards |
+| `interactive` | `true`, `false` | `false` | adds a hover shadow |
+| `as` | any tag | `div` | for example `li` or `section` |
+| `className` | string | | extra classes such as `mt-4` |
+
+### Badge
+
+A small colored label.
+
+| Prop | Values | Default |
+|---|---|---|
+| `variant` | `primary`, `success`, `warning`, `info`, `danger` | `primary` |
+| `dot` | `true`, `false` | `false` |
+
+### StatusBadge
+
+A `Badge` that picks its color from an appointment status (see section 2.2).
+
+| Prop | Values |
+|---|---|
+| `status` | `pending`, `confirmed`, `completed`, `cancelled` |

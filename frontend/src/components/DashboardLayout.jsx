@@ -69,12 +69,12 @@ function DashboardLayout() {
   })
 
   const sidebar = (
-    <div className="relative flex h-full flex-col overflow-hidden bg-linear-to-b from-brand-900 to-slate-950 px-4 py-6">
-      <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-brand-500/30 blur-3xl" />
+    <div className="relative flex h-full flex-col overflow-hidden bg-linear-to-b from-primary-900 to-slate-950 px-4 py-6">
+      <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-primary-500/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
 
       <div className="relative mb-8 flex items-center gap-3 px-2">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-brand-500 to-fuchsia-500 shadow-lg shadow-brand-500/30">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-primary-500 to-fuchsia-500 shadow-lg shadow-primary-500/30">
           <Icon path={icons.calendar} className="h-5 w-5 text-white" />
         </div>
         <span className="text-base font-bold text-white">Smart Appointment</span>
@@ -93,7 +93,7 @@ function DashboardLayout() {
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
               `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${isActive
-                ? 'bg-linear-to-r from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30'
+                ? 'bg-linear-to-r from-primary-500 to-violet-500 text-white shadow-lg shadow-primary-500/30'
                 : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
               }`
             }
@@ -114,7 +114,7 @@ function DashboardLayout() {
       </nav>
 
       <div className="relative flex items-center gap-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-brand-500 to-fuchsia-500 text-sm font-bold text-white">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-primary-500 to-fuchsia-500 text-sm font-bold text-white">
           {user.initials}
         </div>
         <div className="min-w-0 flex-1">
@@ -160,7 +160,7 @@ function DashboardLayout() {
           {authUser.role === 'patient' && (
             <Link
               to="/dashboard/book"
-              className="btn-gradient flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+              className="gradient-accent flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
             >
               <Icon path={icons.plus} className="h-4 w-4" />
               Book Appointment
@@ -168,7 +168,7 @@ function DashboardLayout() {
           )}
         </header>
 
-        <main className="flex-1 overflow-y-auto bg-linear-to-br from-slate-50 to-brand-50/50 p-4 sm:p-6 lg:px-8 lg:py-6">
+        <main className="flex-1 overflow-y-auto bg-linear-to-br from-slate-50 to-primary-50/50 p-4 sm:p-6 lg:px-8 lg:py-6">
           <Outlet />
         </main>
       </div>

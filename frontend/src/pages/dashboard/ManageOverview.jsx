@@ -59,8 +59,8 @@ function ManageOverview() {
       label: 'Today',
       value: stats?.today,
       icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-      gradient: 'from-brand-500 to-violet-500',
-      glow: 'shadow-brand-500/30',
+      gradient: 'from-primary-500 to-violet-500',
+      glow: 'shadow-primary-500/30',
     },
     {
       label: 'Pending requests',
@@ -90,7 +90,7 @@ function ManageOverview() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <section className="relative overflow-hidden rounded-3xl bg-linear-to-r from-brand-600 via-violet-600 to-fuchsia-500 p-6 text-white shadow-xl shadow-brand-600/20">
+      <section className="relative overflow-hidden rounded-3xl bg-linear-to-r from-primary-600 via-violet-600 to-fuchsia-500 p-6 text-white shadow-xl shadow-primary-600/20">
         <div className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-20 right-40 h-48 w-48 rounded-full bg-white/10" />
 
@@ -158,7 +158,7 @@ function ManageOverview() {
                   <span className="text-xs font-semibold text-slate-600">{day.total}</span>
                   <div className="flex w-full flex-1 items-end">
                     <div
-                      className="w-full rounded-t-lg bg-linear-to-t from-brand-600 to-violet-500 transition-all duration-500"
+                      className="w-full rounded-t-lg bg-linear-to-t from-primary-600 to-violet-500 transition-all duration-500"
                       style={{ height: `${Math.max((day.total / maxWeek) * 100, 4)}%` }}
                     />
                   </div>
@@ -203,7 +203,7 @@ function ManageOverview() {
           <h2 className="text-base font-bold text-slate-900">Today&apos;s schedule</h2>
           <Link
             to="/dashboard/manage-appointments"
-            className="text-sm font-semibold text-brand-600 hover:text-brand-700 hover:underline"
+            className="text-sm font-semibold text-primary-600 hover:text-primary-700 hover:underline"
           >
             All appointments
           </Link>

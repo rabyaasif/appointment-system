@@ -3,7 +3,7 @@ function Button({ children, isLoading = false, loadingText = 'Please wait...', t
     <button
       type={type}
       disabled={isLoading}
-      className="btn-gradient flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25 hover:shadow-xl hover:shadow-fuchsia-500/35 focus:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-400/30 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
+      className="gradient-accent flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25 hover:shadow-xl hover:shadow-fuchsia-500/35 focus:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-400/30 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
       {...props}
     >
       {isLoading && (

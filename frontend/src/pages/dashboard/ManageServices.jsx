@@ -165,7 +165,7 @@ function ManageServices() {
 
         <button
           onClick={openAdd}
-          className="btn-gradient flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+          className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
         >
           <Icon path={plusIcon} className="h-4 w-4" />
           Add Service
@@ -302,7 +302,7 @@ function ManageServices() {
                   className={`w-full resize-none rounded-xl border bg-slate-50/60 px-4 py-2.5 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
                     errors.description
                       ? 'border-red-400 focus:border-red-500 focus:ring-red-500/15'
-                      : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/15'
+                      : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
                   }`}
                 />
                 <p className="mt-1 min-h-5 text-xs text-red-500">{errors.description}</p>

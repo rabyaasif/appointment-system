@@ -3,12 +3,63 @@
 
 @theme {
   --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-900: #1e1b4b;
+
+  /* primary (indigo): main actions, links, focus rings */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-primary-900: #1e1b4b;
+
+  /* secondary (violet): second color of the main gradient */
+  --color-secondary-50: #f5f3ff;
+  --color-secondary-100: #ede9fe;
+  --color-secondary-200: #ddd6fe;
+  --color-secondary-500: #8b5cf6;
+  --color-secondary-600: #7c3aed;
+  --color-secondary-700: #6d28d9;
+
+  /* accent (fuchsia): highlights */
+  --color-accent-50: #fdf4ff;
+  --color-accent-100: #fae8ff;
+  --color-accent-200: #f5d0fe;
+  --color-accent-500: #d946ef;
+  --color-accent-600: #c026d3;
+  --color-accent-700: #a21caf;
+
+  /* success (emerald): confirmed, success messages */
+  --color-success-50: #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-200: #a7f3d0;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+
+  /* warning (amber): pending, cautions */
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+
+  /* info (sky): completed, information */
+  --color-info-50: #f0f9ff;
+  --color-info-100: #e0f2fe;
+  --color-info-200: #bae6fd;
+  --color-info-500: #0ea5e9;
+  --color-info-600: #0284c7;
+  --color-info-700: #0369a1;
+
+  /* danger (rose): cancel, delete, errors */
+  --color-danger-50: #fff1f2;
+  --color-danger-100: #ffe4e6;
+  --color-danger-200: #fecdd3;
+  --color-danger-500: #f43f5e;
+  --color-danger-600: #e11d48;
+  --color-danger-700: #be123c;
 }
 
 @layer base {
@@ -17,13 +68,38 @@
   }
 }
 
-.btn-gradient {
-  background-image: linear-gradient(90deg, #6366f1 0%, #a855f7 30%, #ec4899 50%, #f97316 100%);
+/* Gradients: only these four are allowed (see DESIGN_SYSTEM.md, section 2.6) */
+
+@utility gradient-primary {
+  background-image: linear-gradient(135deg, var(--color-primary-600), var(--color-secondary-600));
+}
+
+@utility gradient-hero {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-primary-600),
+    var(--color-secondary-600),
+    var(--color-accent-500)
+  );
+}
+
+@utility gradient-sidebar {
+  background-image: linear-gradient(to bottom, var(--color-primary-900), var(--color-slate-950));
+}
+
+@utility gradient-accent {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-primary-500) 0%,
+    #a855f7 30%,
+    #ec4899 50%,
+    #f97316 100%
+  );
   background-size: 200% 100%;
   background-position: 0% 50%;
   transition: background-position 0.6s ease, box-shadow 0.3s ease, scale 0.2s ease;
-}
 
-.btn-gradient:hover:not(:disabled) {
-  background-position: 100% 50%;
+  &:hover:not(:disabled) {
+    background-position: 100% 50%;
+  }
 }

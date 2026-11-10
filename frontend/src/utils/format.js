@@ -1,5 +1,5 @@
 const AVATAR_COLORS = [
-  'from-brand-500 to-violet-500',
+  'from-primary-500 to-violet-500',
   'from-pink-500 to-rose-500',
   'from-sky-500 to-cyan-500',
   'from-emerald-500 to-teal-500',

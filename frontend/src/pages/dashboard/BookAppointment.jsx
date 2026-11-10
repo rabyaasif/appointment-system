@@ -30,7 +30,7 @@ function StepTitle({ number, children, right }) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2.5">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-brand-600 to-violet-600 text-xs font-bold text-white">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-primary-600 to-violet-600 text-xs font-bold text-white">
           {number}
         </span>
         <h2 className="text-sm font-bold text-slate-900">{children}</h2>
@@ -225,7 +225,7 @@ function BookAppointment() {
         <div className="mt-6 flex w-full flex-col gap-3 sm:flex-row">
           <Link
             to="/dashboard/appointments"
-            className="btn-gradient flex h-11 flex-1 items-center justify-center rounded-xl text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+            className="gradient-accent flex h-11 flex-1 items-center justify-center rounded-xl text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
           >
             My Appointments
           </Link>
@@ -296,8 +296,8 @@ function BookAppointment() {
                   onClick={() => handleDateChange(d.key)}
                   className={`flex flex-col items-center rounded-xl py-2 transition-all duration-200 ${
                     dateKey === d.key
-                      ? 'bg-linear-to-br from-brand-600 to-violet-600 text-white shadow-lg shadow-brand-600/25'
-                      : 'border border-slate-200 bg-white text-slate-600 hover:border-brand-500 hover:text-brand-600'
+                      ? 'bg-linear-to-br from-primary-600 to-violet-600 text-white shadow-lg shadow-primary-600/25'
+                      : 'border border-slate-200 bg-white text-slate-600 hover:border-primary-500 hover:text-primary-600'
                   }`}
                 >
                   <span className="text-[11px] font-medium opacity-80">{d.weekday}</span>
@@ -353,10 +353,10 @@ function BookAppointment() {
                       onClick={() => setSlot(s.time)}
                       className={`h-9 rounded-lg text-xs font-semibold transition-all duration-200 ${
                         slot === s.time
-                          ? 'bg-linear-to-r from-brand-600 to-violet-600 text-white shadow-md shadow-brand-600/25'
+                          ? 'bg-linear-to-r from-primary-600 to-violet-600 text-white shadow-md shadow-primary-600/25'
                           : !s.available
                           ? 'cursor-not-allowed bg-slate-100 text-slate-300 line-through'
-                          : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-500 hover:text-brand-600'
+                          : 'border border-slate-200 bg-white text-slate-700 hover:border-primary-500 hover:text-primary-600'
                       }`}
                     >
                       {s.label}
@@ -381,9 +381,9 @@ function BookAppointment() {
 
           <div className="mt-auto pt-4">
             {bookError && <p className="mb-2 text-center text-xs text-rose-500">{bookError}</p>}
-            <div className="mb-3 flex items-center justify-between rounded-xl bg-brand-50 px-4 py-3">
+            <div className="mb-3 flex items-center justify-between rounded-xl bg-primary-50 px-4 py-3">
               <span className="text-sm font-medium text-slate-600">Consultation Fee</span>
-              <span className="text-lg font-extrabold text-brand-700">
+              <span className="text-lg font-extrabold text-primary-700">
                 {service ? `Rs ${service.price.toLocaleString()}` : '—'}
               </span>
             </div>

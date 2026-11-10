@@ -55,8 +55,8 @@ function Overview() {
       label: 'Upcoming',
       value: upcoming.length,
       icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-      gradient: 'from-brand-500 to-violet-500',
-      glow: 'shadow-brand-500/30',
+      gradient: 'from-primary-500 to-violet-500',
+      glow: 'shadow-primary-500/30',
     },
     {
       label: 'Completed',
@@ -76,7 +76,7 @@ function Overview() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <section className="relative overflow-hidden rounded-3xl bg-linear-to-r from-brand-600 via-violet-600 to-fuchsia-500 p-6 text-white shadow-xl shadow-brand-600/20">
+      <section className="relative overflow-hidden rounded-3xl bg-linear-to-r from-primary-600 via-violet-600 to-fuchsia-500 p-6 text-white shadow-xl shadow-primary-600/20">
         <div className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-20 right-40 h-48 w-48 rounded-full bg-white/10" />
 
@@ -128,7 +128,7 @@ function Overview() {
       <section className="mt-4 rounded-2xl border border-slate-200/70 bg-white shadow-sm">
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <h2 className="text-base font-bold text-slate-900">Upcoming Appointments</h2>
-          <Link to="/dashboard/appointments" className="text-sm font-semibold text-brand-600 hover:text-brand-700 hover:underline">
+          <Link to="/dashboard/appointments" className="text-sm font-semibold text-primary-600 hover:text-primary-700 hover:underline">
             View all
           </Link>
         </div>
@@ -140,7 +140,7 @@ function Overview() {
             <p className="text-sm text-slate-500">Nothing booked yet.</p>
             <Link
               to="/dashboard/book"
-              className="btn-gradient mt-3 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+              className="gradient-accent mt-3 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
             >
               Book Appointment
             </Link>

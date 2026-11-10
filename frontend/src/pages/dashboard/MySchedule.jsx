@@ -31,7 +31,7 @@ const emptyRows = Object.fromEntries(
 )
 
 const selectClass =
-  'h-10 rounded-xl border border-slate-200 bg-slate-50/60 px-3 text-sm text-slate-800 outline-none transition-all duration-200 hover:border-slate-300 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/15'
+  'h-10 rounded-xl border border-slate-200 bg-slate-50/60 px-3 text-sm text-slate-800 outline-none transition-all duration-200 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/15'
 
 function MySchedule() {
   const [rows, setRows] = useState(emptyRows)
@@ -138,7 +138,7 @@ function MySchedule() {
                       aria-label={`${name} available`}
                       onClick={() => updateRow(day, { enabled: !row.enabled })}
                       className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-                        row.enabled ? 'bg-linear-to-r from-brand-600 to-violet-600' : 'bg-slate-200'
+                        row.enabled ? 'bg-linear-to-r from-primary-600 to-violet-600' : 'bg-slate-200'
                       }`}
                     >
                       <span

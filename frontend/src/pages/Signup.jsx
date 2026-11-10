@@ -164,7 +164,7 @@ function Signup() {
 
       <p className="mt-4 text-center text-sm text-slate-500">
         Already have an account?{' '}
-        <Link to="/login" className="font-semibold text-brand-600 hover:text-brand-700 hover:underline">
+        <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-700 hover:underline">
           Login
         </Link>
       </p>

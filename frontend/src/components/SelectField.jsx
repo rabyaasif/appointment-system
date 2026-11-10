@@ -11,7 +11,7 @@ function SelectField({ label, name, value, onChange, disabled = false, children 
           value={value}
           onChange={onChange}
           disabled={disabled}
-          className="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/60 pl-4 pr-10 text-sm text-slate-800 outline-none transition-all duration-200 hover:border-slate-300 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/15 disabled:cursor-not-allowed disabled:opacity-60"
+          className="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/60 pl-4 pr-10 text-sm text-slate-800 outline-none transition-all duration-200 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/15 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {children}
         </select>

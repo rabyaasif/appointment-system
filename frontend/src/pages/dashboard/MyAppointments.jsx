@@ -80,7 +80,7 @@ function MyAppointments() {
             onClick={() => setActiveTab(tab)}
             className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
               activeTab === tab
-                ? 'bg-linear-to-r from-brand-600 to-violet-600 text-white shadow-md shadow-brand-600/25'
+                ? 'bg-linear-to-r from-primary-600 to-violet-600 text-white shadow-md shadow-primary-600/25'
                 : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
             }`}
           >
@@ -111,7 +111,7 @@ function MyAppointments() {
           <p className="text-sm text-slate-500">No appointments found here.</p>
           <Link
             to="/dashboard/book"
-            className="btn-gradient mt-4 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+            className="gradient-accent mt-4 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
           >
             Book Appointment
           </Link>

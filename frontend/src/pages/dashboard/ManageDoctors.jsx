@@ -143,7 +143,7 @@ function ManageDoctors() {
 
         <button
           onClick={openAdd}
-          className="btn-gradient flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+          className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d={plusIcon} />
@@ -191,7 +191,7 @@ function ManageDoctors() {
 
               <span
                 className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                  doctor.serviceIds.length > 0 ? 'bg-brand-50 text-brand-700' : 'bg-amber-50 text-amber-700'
+                  doctor.serviceIds.length > 0 ? 'bg-primary-50 text-primary-700' : 'bg-amber-50 text-amber-700'
                 }`}
               >
                 {doctor.serviceIds.length > 0
@@ -313,7 +313,7 @@ function ManageDoctors() {
                     key={service.id}
                     className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-2.5 text-sm transition-colors ${
                       checked
-                        ? 'border-brand-500 bg-brand-50 text-brand-700'
+                        ? 'border-primary-500 bg-primary-50 text-primary-700'
                         : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -321,7 +321,7 @@ function ManageDoctors() {
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleService(service.id)}
-                      className="h-4 w-4 accent-brand-600"
+                      className="h-4 w-4 accent-primary-600"
                     />
                     <span className="truncate">{service.name}</span>
                   </label>

@@ -25,14 +25,14 @@ function InputField({ label, name, type = 'text', value, onChange, error, placeh
           } ${
             error
               ? 'border-red-400 focus:border-red-500 focus:ring-red-500/15'
-              : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/15'
+              : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
           }`}
         />
         {isPassword && (
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute inset-y-0 right-0 px-3 text-xs font-semibold text-slate-400 transition-colors hover:text-brand-600"
+            className="absolute inset-y-0 right-0 px-3 text-xs font-semibold text-slate-400 transition-colors hover:text-primary-600"
           >
             {showPassword ? 'Hide' : 'Show'}
           </button>

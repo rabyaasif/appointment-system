@@ -80,7 +80,7 @@ function VerifyOtp() {
 
   return (
     <AuthLayout>
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
         <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
@@ -111,7 +111,7 @@ function VerifyOtp() {
               className={`h-13 w-11 rounded-xl border bg-slate-50/60 text-center text-xl font-bold text-slate-800 outline-none transition-all duration-200 focus:bg-white focus:ring-4 ${
                 error
                   ? 'border-red-400 focus:border-red-500 focus:ring-red-500/15'
-                  : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/15'
+                  : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
               }`}
             />
           ))}
@@ -133,7 +133,7 @@ function VerifyOtp() {
       </form>
 
       <p className="mt-4 text-center text-sm text-slate-500">
-        <Link to="/login" className="font-semibold text-brand-600 hover:text-brand-700 hover:underline">
+        <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-700 hover:underline">
           Back to Login
         </Link>
       </p>

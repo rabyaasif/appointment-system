@@ -62,6 +62,11 @@ Each color comes in these shades:
 | `500` | main color |
 | `600` | hover state |
 | `700` | text on top of a soft background |
+| `100` | soft ring or light hover background |
+| `200` | soft border |
+| `900` | very dark shade (only `primary`, used by the sidebar gradient) |
+
+All tokens are defined in `frontend/src/index.css`.
 
 ### 2.2 Status colors
 

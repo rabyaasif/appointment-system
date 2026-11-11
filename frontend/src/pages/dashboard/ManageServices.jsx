@@ -4,6 +4,7 @@ import SelectField from '../../components/SelectField'
 import Button from '../../components/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
+import PageHeader from '../../components/ui/PageHeader'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 import { createService, updateService, deleteService } from '../../services/adminService'
@@ -157,14 +158,7 @@ function ManageServices() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Manage Services</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Add, edit or remove the services patients can book.
-          </p>
-        </div>
-
+      <PageHeader title="Manage Services" subtitle="Add, edit or remove the services patients can book.">
         <button
           onClick={openAdd}
           className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
@@ -172,7 +166,7 @@ function ManageServices() {
           <Icon path={plusIcon} className="h-4 w-4" />
           Add Service
         </button>
-      </div>
+      </PageHeader>
 
       {isLoading ? (
         <ul className="mt-5 space-y-3">
@@ -299,8 +293,8 @@ function ManageServices() {
                   onChange={handleChange}
                   placeholder="Short description of the service"
                   className={`w-full resize-none rounded-xl border bg-slate-50/60 px-4 py-2.5 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:ring-4 ${errors.description
-                      ? 'border-danger-500 focus:border-danger-500 focus:ring-danger-500/15'
-                      : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
+                    ? 'border-danger-500 focus:border-danger-500 focus:ring-danger-500/15'
+                    : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
                     }`}
                 />
                 <p className="mt-1 min-h-5 text-xs text-danger-500">{errors.description}</p>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
+import PageHeader from '../../components/ui/PageHeader'
 import Badge from '../../components/ui/Badge'
 import InputField from '../../components/InputField'
 import Button from '../../components/Button'
@@ -138,12 +139,7 @@ function ManageDoctors() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Manage Doctors</h1>
-          <p className="mt-1 text-sm text-slate-500">Add doctors and choose which services each one offers.</p>
-        </div>
-
+      <PageHeader title="Manage Doctors" subtitle="Add doctors and choose which services each one offers.">
         <button
           onClick={openAdd}
           className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
@@ -153,7 +149,7 @@ function ManageDoctors() {
           </svg>
           Add Doctor
         </button>
-      </div>
+      </PageHeader>
 
       {isLoading ? (
         <ul className="mt-5 space-y-3">
@@ -314,8 +310,8 @@ function ManageDoctors() {
                   <label
                     key={service.id}
                     className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-2.5 text-sm transition-colors ${checked
-                        ? 'border-primary-500 bg-primary-50 text-primary-700'
-                        : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                      ? 'border-primary-500 bg-primary-50 text-primary-700'
+                      : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                       }`}
                   >
                     <input

@@ -7,7 +7,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { getStats } from '../../services/manageService'
 import { capitalize, getInitials, avatarColor } from '../../utils/format'
 
-// Progress bar ke rang (status ke token ke mutabiq, DESIGN_SYSTEM.md section 2.2)
+// Progress bar clrs (status ke token ke mutabiq, DESIGN_SYSTEM.md section 2.2)
 const statusBars = {
   pending: 'bg-warning-500',
   confirmed: 'bg-success-500',

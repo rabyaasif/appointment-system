@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
+import PageHeader from '../../components/ui/PageHeader'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getManagedAppointments, updateAppointmentStatus } from '../../services/manageService'
@@ -69,14 +70,10 @@ function ManageAppointments() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Appointments</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            {isAdmin ? 'All appointments across the clinic.' : 'Appointments booked with you.'}
-          </p>
-        </div>
-
+      <PageHeader
+        title="Appointments"
+        subtitle={isAdmin ? 'All appointments across the clinic.' : 'Appointments booked with you.'}
+      >
         <div className="relative w-full sm:w-72">
           <svg className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d={searchIcon} />
@@ -89,7 +86,7 @@ function ManageAppointments() {
             className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/15"
           />
         </div>
-      </div>
+      </PageHeader>
 
       <div className="mt-4 flex flex-wrap gap-2">
         {tabs.map((tab) => (
@@ -97,8 +94,8 @@ function ManageAppointments() {
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${activeTab === tab
-                ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
-                : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
+              ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
+              : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
               }`}
           >
             {tab}

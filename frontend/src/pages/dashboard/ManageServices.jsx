@@ -3,6 +3,7 @@ import InputField from '../../components/InputField'
 import SelectField from '../../components/SelectField'
 import Button from '../../components/Button'
 import Card from '../../components/ui/Card'
+import Skeleton from '../../components/ui/Skeleton'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 import { createService, updateService, deleteService } from '../../services/adminService'
@@ -176,7 +177,7 @@ function ManageServices() {
       {isLoading ? (
         <ul className="mt-5 space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
-            <li key={i} className="h-18.5 animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
+            <Skeleton as="li" key={i} className="h-20" />
           ))}
         </ul>
       ) : loadError ? (
@@ -297,11 +298,10 @@ function ManageServices() {
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Short description of the service"
-                  className={`w-full resize-none rounded-xl border bg-slate-50/60 px-4 py-2.5 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
-                    errors.description
+                  className={`w-full resize-none rounded-xl border bg-slate-50/60 px-4 py-2.5 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:ring-4 ${errors.description
                       ? 'border-danger-500 focus:border-danger-500 focus:ring-danger-500/15'
                       : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
-                  }`}
+                    }`}
                 />
                 <p className="mt-1 min-h-5 text-xs text-danger-500">{errors.description}</p>
               </div>

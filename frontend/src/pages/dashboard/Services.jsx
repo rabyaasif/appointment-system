@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
+import Skeleton from '../../components/ui/Skeleton'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 
@@ -73,11 +74,10 @@ function Services() {
           <button
             key={item}
             onClick={() => setCategory(item)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
-              category === item
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${category === item
                 ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
                 : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
-            }`}
+              }`}
           >
             {item}
           </button>
@@ -87,8 +87,7 @@ function Services() {
       {isLoading ? (
         <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-44 animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
-          ))}
+            <Skeleton key={i} className="h-44" />))}
         </div>
       ) : loadError ? (
         <div className="mt-6 rounded-2xl border border-danger-200 bg-danger-50 p-8 text-center text-sm text-danger-600">

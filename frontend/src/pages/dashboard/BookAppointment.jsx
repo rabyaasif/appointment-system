@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import SelectField from '../../components/SelectField'
 import Button from '../../components/Button'
 import Card from '../../components/ui/Card'
+import Skeleton from '../../components/ui/Skeleton'
 import { getServices, getServiceDoctors, getSlots } from '../../services/serviceService'
 import { createAppointment } from '../../services/appointmentService'
 
@@ -296,8 +297,8 @@ function BookAppointment() {
                   key={d.key}
                   onClick={() => handleDateChange(d.key)}
                   className={`flex flex-col items-center rounded-xl py-2 transition-all duration-200 ${dateKey === d.key
-                      ? 'bg-linear-to-br from-primary-600 to-secondary-600 text-white shadow-lg shadow-primary-600/25'
-                      : 'border border-slate-200 bg-white text-slate-600 hover:border-primary-500 hover:text-primary-600'
+                    ? 'bg-linear-to-br from-primary-600 to-secondary-600 text-white shadow-lg shadow-primary-600/25'
+                    : 'border border-slate-200 bg-white text-slate-600 hover:border-primary-500 hover:text-primary-600'
                     }`}
                 >
                   <span className="text-xs font-medium opacity-80">{d.weekday}</span>
@@ -333,7 +334,7 @@ function BookAppointment() {
               ) : slotsLoading ? (
                 <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
                   {Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className="h-9 animate-pulse rounded-lg bg-slate-100" />
+                    <Skeleton key={i} variant="block" className="h-9" />
                   ))}
                 </div>
               ) : slotsError ? (
@@ -352,10 +353,10 @@ function BookAppointment() {
                       disabled={!s.available}
                       onClick={() => setSlot(s.time)}
                       className={`h-9 rounded-lg text-xs font-semibold transition-all duration-200 ${slot === s.time
-                          ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
-                          : !s.available
-                            ? 'cursor-not-allowed bg-slate-100 text-slate-300 line-through'
-                            : 'border border-slate-200 bg-white text-slate-700 hover:border-primary-500 hover:text-primary-600'
+                        ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
+                        : !s.available
+                          ? 'cursor-not-allowed bg-slate-100 text-slate-300 line-through'
+                          : 'border border-slate-200 bg-white text-slate-700 hover:border-primary-500 hover:text-primary-600'
                         }`}
                     >
                       {s.label}

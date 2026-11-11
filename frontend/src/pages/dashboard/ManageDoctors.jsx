@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Card from '../../components/ui/Card'
+import Skeleton from '../../components/ui/Skeleton'
 import Badge from '../../components/ui/Badge'
 import InputField from '../../components/InputField'
 import Button from '../../components/Button'
@@ -157,7 +158,7 @@ function ManageDoctors() {
       {isLoading ? (
         <ul className="mt-5 space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
-            <li key={i} className="h-18.5 animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
+            <Skeleton as="li" key={i} className="h-20" />
           ))}
         </ul>
       ) : loadError ? (
@@ -312,11 +313,10 @@ function ManageDoctors() {
                 return (
                   <label
                     key={service.id}
-                    className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-2.5 text-sm transition-colors ${
-                      checked
+                    className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-2.5 text-sm transition-colors ${checked
                         ? 'border-primary-500 bg-primary-50 text-primary-700'
                         : 'border-slate-200 text-slate-700 hover:bg-slate-50'
-                    }`}
+                      }`}
                   >
                     <input
                       type="checkbox"

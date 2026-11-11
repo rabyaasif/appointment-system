@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
+import Skeleton from '../../components/ui/Skeleton'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { getMyAppointments, cancelAppointment } from '../../services/appointmentService'
 import { formatDate, capitalize, getInitials, avatarColor } from '../../utils/format'
@@ -73,17 +74,15 @@ function MyAppointments() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
-              activeTab === tab
+            className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${activeTab === tab
                 ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
                 : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
-            }`}
+              }`}
           >
             {tab}
             <span
-              className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                activeTab === tab ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
-              }`}
+              className={`rounded-full px-2 py-0.5 text-xs font-semibold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}
             >
               {countFor(tab)}
             </span>
@@ -94,7 +93,7 @@ function MyAppointments() {
       {isLoading ? (
         <ul className="mt-5 space-y-3">
           {Array.from({ length: 4 }).map((_, i) => (
-            <li key={i} className="h-18.5 animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
+            <Skeleton as="li" key={i} className="h-20" />
           ))}
         </ul>
       ) : loadError ? (

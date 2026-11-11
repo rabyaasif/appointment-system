@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import Card from '../../components/ui/Card'
+import Skeleton from '../../components/ui/Skeleton'
 import { getSchedule, saveSchedule } from '../../services/doctorService'
 
 // Hafte ki tarteeb Monday se Sunday (Sunday ka number 0 hai)
@@ -121,7 +122,7 @@ function MySchedule() {
       ) : isLoading ? (
         <ul className="mt-5 space-y-3">
           {Array.from({ length: 7 }).map((_, i) => (
-            <li key={i} className="h-16 animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
+            <Skeleton as="li" key={i} className="h-16" />
           ))}
         </ul>
       ) : (

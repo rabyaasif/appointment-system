@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
+import Skeleton from '../../components/ui/Skeleton'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getStats } from '../../services/manageService'
@@ -172,7 +173,7 @@ function ManageOverview() {
               ))}
             </div>
           ) : (
-            <div className="mt-4 h-44 animate-pulse rounded-xl bg-slate-100" />
+            <Skeleton variant="block" className="mt-4 h-44" />
           )}
         </Card>
 

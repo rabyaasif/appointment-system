@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
+import Avatar from '../../components/ui/Avatar'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getStats } from '../../services/manageService'
-import { capitalize, getInitials, avatarColor } from '../../utils/format'
+import { capitalize } from '../../utils/format'
 
 // Progress bar clrs (status ke token ke mutabiq, DESIGN_SYSTEM.md section 2.2)
 const statusBars = {
@@ -221,9 +222,7 @@ function ManageOverview() {
           <ul className="divide-y divide-slate-100">
             {(stats?.todayList ?? []).map((item) => (
               <li key={item.id} className="flex items-center gap-4 px-6 py-3.5 transition-colors hover:bg-slate-50">
-                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-xs font-bold text-white ${avatarColor(item.id)}`}>
-                  {getInitials(item.patient)}
-                </div>
+                <Avatar name={item.patient} size="sm" />
 
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold text-slate-800">{item.patient}</p>

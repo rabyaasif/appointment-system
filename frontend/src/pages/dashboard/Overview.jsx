@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
+import Avatar from '../../components/ui/Avatar'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getMyAppointments } from '../../services/appointmentService'
-import { formatDate, getInitials, avatarColor, todayKey } from '../../utils/format'
+import { formatDate, todayKey } from '../../utils/format'
 
 function getGreeting() {
   const hour = new Date().getHours()
@@ -148,9 +149,7 @@ function Overview() {
           <ul className="divide-y divide-slate-100">
             {upcoming.slice(0, 5).map((item) => (
               <li key={item.id} className="flex items-center gap-4 px-6 py-3.5 transition-colors hover:bg-slate-50">
-                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-xs font-bold text-white ${avatarColor(item.id)}`}>
-                  {getInitials(item.doctor)}
-                </div>
+                <Avatar name={item.doctor} size="sm" />
 
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold text-slate-800">{item.service}</p>

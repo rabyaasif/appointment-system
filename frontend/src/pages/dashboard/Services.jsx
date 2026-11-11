@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
+import Tabs from '../../components/ui/Tabs'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 
@@ -64,20 +65,8 @@ function Services() {
           />
         </div>
       </PageHeader>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {categories.map((item) => (
-          <button
-            key={item}
-            onClick={() => setCategory(item)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${category === item
-              ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
-              : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
-              }`}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
+
+      <Tabs items={categories} active={category} onChange={setCategory} className="mt-4" />
 
       {isLoading ? (
         <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

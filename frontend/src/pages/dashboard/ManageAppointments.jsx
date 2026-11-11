@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
+import Tabs from '../../components/ui/Tabs'
+import Avatar from '../../components/ui/Avatar'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getManagedAppointments, updateAppointmentStatus } from '../../services/manageService'
-import { formatDate, capitalize, getInitials, avatarColor } from '../../utils/format'
+import { formatDate, capitalize } from '../../utils/format'
 
 const tabs = ['All', 'Pending', 'Confirmed', 'Completed', 'Cancelled']
 
@@ -88,27 +90,7 @@ function ManageAppointments() {
         </div>
       </PageHeader>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${activeTab === tab
-              ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
-              : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
-              }`}
-          >
-            {tab}
-            <span
-              className={`rounded-full px-2 py-0.5 text-xs font-semibold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
-                }`}
-            >
-              {countFor(tab)}
-            </span>
-          </button>
-        ))}
-      </div>
-
+      <Tabs items={tabs} active={activeTab} onChange={setActiveTab} getCount={countFor} className="mt-4" />
       {actionError && (
         <p className="mt-4 rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">{actionError}</p>
       )}
@@ -139,11 +121,7 @@ function ManageAppointments() {
                 interactive
                 className="flex flex-wrap items-center gap-4"
               >
-                <div
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-sm font-bold text-white ${avatarColor(item.id)}`}
-                >
-                  {getInitials(item.patient)}
-                </div>
+                <Avatar name={item.patient} />
 
                 <div className="min-w-0 flex-1 basis-44">
                   <p className="truncate text-sm font-semibold text-slate-800">{item.patient}</p>

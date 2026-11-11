@@ -3,11 +3,11 @@ import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
 import Badge from '../../components/ui/Badge'
+import Avatar from '../../components/ui/Avatar'
 import InputField from '../../components/InputField'
 import Button from '../../components/Button'
 import { getServices } from '../../services/serviceService'
 import { getDoctors, createDoctor, setDoctorServices } from '../../services/adminService'
-import { getInitials, avatarColor } from '../../utils/format'
 
 const emptyForm = { name: '', specialty: '', email: '', phone: '', password: '' }
 const plusIcon = 'M12 4v16m8-8H4'
@@ -175,11 +175,7 @@ function ManageDoctors() {
               interactive
               className="flex flex-wrap items-center gap-4"
             >
-              <div
-                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-sm font-bold text-white ${avatarColor(doctor.id)}`}
-              >
-                {getInitials(doctor.name)}
-              </div>
+              <Avatar name={doctor.name} />
 
               <div className="min-w-0 flex-1 basis-44">
                 <p className="truncate text-sm font-semibold text-slate-800">{doctor.name}</p>

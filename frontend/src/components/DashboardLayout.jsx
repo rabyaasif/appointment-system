@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { avatarColor } from '../utils/format'
+import Avatar from './ui/Avatar'
 
 const icons = {
   overview:
@@ -115,9 +115,8 @@ function DashboardLayout() {
       </nav>
 
       <div className="relative flex items-center gap-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-sm font-bold text-white ${avatarColor(authUser.id)}`}>
-          {user.initials}
-        </div>
+        <Avatar name={authUser.name} size="sm" />
+
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-white">{user.name}</p>
           <p className="text-xs text-primary-200/60">{user.role}</p>

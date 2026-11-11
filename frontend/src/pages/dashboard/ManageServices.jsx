@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import InputField from '../../components/InputField'
 import SelectField from '../../components/SelectField'
 import Button from '../../components/Button'
+import Card from '../../components/ui/Card'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 import { createService, updateService, deleteService } from '../../services/adminService'
@@ -165,7 +166,7 @@ function ManageServices() {
 
         <button
           onClick={openAdd}
-          className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+          className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
         >
           <Icon path={plusIcon} className="h-4 w-4" />
           Add Service
@@ -179,7 +180,7 @@ function ManageServices() {
           ))}
         </ul>
       ) : loadError ? (
-        <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center text-sm text-rose-600">
+        <div className="mt-5 rounded-2xl border border-danger-200 bg-danger-50 p-8 text-center text-sm text-danger-600">
           {loadError}
         </div>
       ) : services.length === 0 ? (
@@ -191,10 +192,7 @@ function ManageServices() {
           {services.map((service) => {
             const meta = categoryMeta[service.category] ?? categoryMeta.General
             return (
-              <li
-                key={service.id}
-                className="flex flex-wrap items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md"
-              >
+              <Card as="li" key={service.id} padding="sm" interactive className="flex flex-wrap items-center gap-4">
                 <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ring-1 ${meta.soft}`}>
                   <Icon path={meta.icon} />
                 </div>
@@ -224,12 +222,12 @@ function ManageServices() {
                   </button>
                   <button
                     onClick={() => openDelete(service)}
-                    className="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-semibold text-rose-600 transition-colors hover:bg-rose-50"
+                    className="rounded-lg border border-danger-200 px-3 py-1.5 text-xs font-semibold text-danger-600 transition-colors hover:bg-danger-50"
                   >
                     Delete
                   </button>
                 </div>
-              </li>
+              </Card>
             )
           })}
         </ul>
@@ -263,7 +261,7 @@ function ManageServices() {
                       </option>
                     ))}
                   </SelectField>
-                  <p className="mt-1 min-h-5 text-xs text-red-500">{errors.category}</p>
+                  <p className="mt-1 min-h-5 text-xs text-danger-500">{errors.category}</p>
                 </div>
               </div>
 
@@ -301,14 +299,14 @@ function ManageServices() {
                   placeholder="Short description of the service"
                   className={`w-full resize-none rounded-xl border bg-slate-50/60 px-4 py-2.5 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:ring-4 ${
                     errors.description
-                      ? 'border-red-400 focus:border-red-500 focus:ring-red-500/15'
+                      ? 'border-danger-500 focus:border-danger-500 focus:ring-danger-500/15'
                       : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
                   }`}
                 />
-                <p className="mt-1 min-h-5 text-xs text-red-500">{errors.description}</p>
+                <p className="mt-1 min-h-5 text-xs text-danger-500">{errors.description}</p>
               </div>
 
-              {formError && <p className="text-center text-sm text-red-500">{formError}</p>}
+              {formError && <p className="text-center text-sm text-danger-500">{formError}</p>}
 
               <div className="flex gap-3 pt-2">
                 <button
@@ -334,7 +332,7 @@ function ManageServices() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/50" onClick={() => !isDeleting && setDeleteTarget(null)} />
           <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-rose-50 text-rose-500">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
               <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
@@ -344,7 +342,7 @@ function ManageServices() {
               {deleteTarget.name} will be removed for all patients.
             </p>
 
-            {deleteError && <p className="mt-3 text-sm text-rose-500">{deleteError}</p>}
+            {deleteError && <p className="mt-3 text-sm text-danger-500">{deleteError}</p>}
 
             <div className="mt-6 flex gap-3">
               <button
@@ -357,7 +355,7 @@ function ManageServices() {
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="h-11 flex-1 rounded-xl bg-rose-500 text-sm font-semibold text-white shadow-lg shadow-rose-500/25 transition-all hover:bg-rose-600 active:scale-[0.98] disabled:opacity-60"
+                className="h-11 flex-1 rounded-xl bg-danger-500 text-sm font-semibold text-white shadow-lg shadow-danger-500/25 transition-all hover:bg-danger-600 active:scale-[0.98] disabled:opacity-60"
               >
                 {isDeleting ? 'Deleting...' : 'Yes, delete'}
               </button>

@@ -175,7 +175,7 @@ function ManageServices() {
       {isLoading ? (
         <ul className="mt-5 space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
-            <li key={i} className="h-[74px] animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
+            <li key={i} className="h-18.5 animate-pulse rounded-2xl border border-slate-200/70 bg-white" />
           ))}
         </ul>
       ) : loadError ? (

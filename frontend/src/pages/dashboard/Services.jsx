@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Card from '../../components/ui/Card'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 
@@ -74,7 +75,7 @@ function Services() {
             onClick={() => setCategory(item)}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
               category === item
-                ? 'bg-linear-to-r from-primary-600 to-violet-600 text-white shadow-md shadow-primary-600/25'
+                ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
                 : 'border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
             }`}
           >
@@ -90,7 +91,7 @@ function Services() {
           ))}
         </div>
       ) : loadError ? (
-        <div className="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center text-sm text-rose-600">
+        <div className="mt-6 rounded-2xl border border-danger-200 bg-danger-50 p-8 text-center text-sm text-danger-600">
           {loadError}
         </div>
       ) : filtered.length === 0 ? (
@@ -102,10 +103,7 @@ function Services() {
           {filtered.map((service) => {
             const meta = categoryMeta[service.category] ?? categoryMeta.General
             return (
-              <div
-                key={service.id}
-                className="flex flex-col rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
-              >
+              <Card key={service.id} interactive className="flex flex-col hover:-translate-y-1">
                 <div className="flex items-start justify-between">
                   <div className={`flex h-11 w-11 items-center justify-center rounded-xl ring-1 ${meta.soft}`}>
                     <Icon path={meta.icon} />
@@ -140,7 +138,7 @@ function Services() {
                     />
                   </Link>
                 </div>
-              </div>
+              </Card>
             )
           })}
         </div>

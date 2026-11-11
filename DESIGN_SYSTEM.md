@@ -221,3 +221,16 @@ A `Badge` that picks its color from an appointment status (see section 2.2).
 | Prop | Values |
 |---|---|
 | `status` | `pending`, `confirmed`, `completed`, `cancelled` |
+
+### 2.10 Service category colors
+
+Categories never use `danger` or `warning`, because those colors signal a problem.
+
+| Category | Token |
+|---|---|
+| General | `success` |
+| Specialist | `primary` |
+| Dental | `info` |
+| Women & Child | `accent` |
+
+The colors are defined in `categoryMeta` in `frontend/src/data/services.js`.

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
+import PageHeader from '../../components/ui/PageHeader'
 import { getSchedule, saveSchedule } from '../../services/doctorService'
 
 // Hafte ki tarteeb Monday se Sunday (Sunday ka number 0 hai)
@@ -110,10 +111,10 @@ function MySchedule() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">My Schedule</h1>
-      <p className="mt-1 text-sm text-slate-500">
-        Choose the days and hours you are available. Appointments already booked are not affected.
-      </p>
+      <PageHeader
+        title="My Schedule"
+        subtitle="Choose the days and hours you are available. Appointments already booked are not affected."
+      />
 
       {loadError ? (
         <div className="mt-5 rounded-2xl border border-danger-200 bg-danger-50 p-8 text-center text-sm text-danger-600">

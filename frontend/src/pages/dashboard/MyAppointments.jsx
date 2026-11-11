@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
+import PageHeader from '../../components/ui/PageHeader'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { getMyAppointments, cancelAppointment } from '../../services/appointmentService'
 import { formatDate, capitalize, getInitials, avatarColor } from '../../utils/format'
@@ -66,8 +67,7 @@ function MyAppointments() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">My Appointments</h1>
-      <p className="mt-1 text-sm text-slate-500">Track, manage and cancel your bookings.</p>
+      <PageHeader title="My Appointments" subtitle="Track, manage and cancel your bookings." />
 
       <div className="mt-4 flex flex-wrap gap-2">
         {tabs.map((tab) => (

@@ -4,6 +4,7 @@ import SelectField from '../../components/SelectField'
 import Button from '../../components/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
+import PageHeader from '../../components/ui/PageHeader'
 import { getServices, getServiceDoctors, getSlots } from '../../services/serviceService'
 import { createAppointment } from '../../services/appointmentService'
 
@@ -244,8 +245,7 @@ function BookAppointment() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">Book Appointment</h1>
-      <p className="mt-1 text-sm text-slate-500">Pick a service, doctor, date and time.</p>
+      <PageHeader title="Book Appointment" subtitle="Pick a service, doctor, date and time." />
 
       {servicesError && (
         <p className="mt-3 rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">{servicesError}</p>

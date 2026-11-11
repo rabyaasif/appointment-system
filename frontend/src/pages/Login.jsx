@@ -100,7 +100,7 @@ function Login() {
           autoComplete="current-password"
         />
 
-        {formError && <p className="pt-1 text-center text-sm text-red-500">{formError}</p>}
+        {formError && <p className="pt-1 text-center text-sm text-danger-500">{formError}</p>}
 
         <div className="pt-2">
           <Button isLoading={isLoading} loadingText="Logging in...">

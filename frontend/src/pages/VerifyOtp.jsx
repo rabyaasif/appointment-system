@@ -110,17 +110,17 @@ function VerifyOtp() {
               aria-label={`Digit ${index + 1}`}
               className={`h-13 w-11 rounded-xl border bg-slate-50/60 text-center text-xl font-bold text-slate-800 outline-none transition-all duration-200 focus:bg-white focus:ring-4 ${
                 error
-                  ? 'border-red-400 focus:border-red-500 focus:ring-red-500/15'
+                  ? 'border-red-400 focus:border-danger-500 focus:ring-danger-500/15'
                   : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
               }`}
             />
           ))}
         </div>
 
-        <p className="mt-3 min-h-5 text-center text-sm text-red-500">{error}</p>
+        <p className="mt-3 min-h-5 text-center text-sm text-danger-500">{error}</p>
 
         {devOtp && (
-          <p className="mb-3 rounded-lg bg-amber-50 px-3 py-2 text-center text-xs text-amber-700">
+          <p className="mb-3 rounded-lg bg-warning-50 px-3 py-2 text-center text-xs text-warning-700">
             Development mode: the OTP is filled in for you.
           </p>
         )}

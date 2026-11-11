@@ -24,7 +24,7 @@ function InputField({ label, name, type = 'text', value, onChange, error, placeh
             isPassword ? 'pr-14' : ''
           } ${
             error
-              ? 'border-red-400 focus:border-red-500 focus:ring-red-500/15'
+              ? 'border-danger-500 focus:border-danger-500 focus:ring-danger-500/15'
               : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
           }`}
         />
@@ -38,7 +38,7 @@ function InputField({ label, name, type = 'text', value, onChange, error, placeh
           </button>
         )}
       </div>
-      <p className="mt-1 min-h-5 text-xs text-red-500">{error}</p>
+      <p className="mt-1 min-h-5 text-xs text-danger-500">{error}</p>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { avatarColor } from '../utils/format'
 
 const icons = {
   overview:
@@ -69,18 +70,18 @@ function DashboardLayout() {
   })
 
   const sidebar = (
-    <div className="relative flex h-full flex-col overflow-hidden bg-linear-to-b from-primary-900 to-slate-950 px-4 py-6">
+    <div className="relative flex h-full flex-col overflow-hidden gradient-sidebar px-4 py-6">
       <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-primary-500/30 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-accent-500/20 blur-3xl" />
 
       <div className="relative mb-8 flex items-center gap-3 px-2">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-primary-500 to-fuchsia-500 shadow-lg shadow-primary-500/30">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary shadow-lg shadow-primary-500/30">
           <Icon path={icons.calendar} className="h-5 w-5 text-white" />
         </div>
         <span className="text-base font-bold text-white">Smart Appointment</span>
       </div>
 
-      <p className="relative mb-2 px-3 text-xs font-semibold uppercase tracking-widest text-indigo-300/50">
+      <p className="relative mb-2 px-3 text-xs font-semibold uppercase tracking-widest text-primary-200/50">
         Menu
       </p>
 
@@ -93,8 +94,8 @@ function DashboardLayout() {
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
               `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${isActive
-                ? 'bg-linear-to-r from-primary-500 to-violet-500 text-white shadow-lg shadow-primary-500/30'
-                : 'text-indigo-100/70 hover:bg-white/10 hover:text-white'
+                ? 'gradient-primary text-white shadow-lg shadow-primary-500/30'
+                : 'text-primary-100/70 hover:bg-white/10 hover:text-white'
               }`
             }
           >
@@ -114,18 +115,18 @@ function DashboardLayout() {
       </nav>
 
       <div className="relative flex items-center gap-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-primary-500 to-fuchsia-500 text-sm font-bold text-white">
+        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br text-sm font-bold text-white ${avatarColor(authUser.id)}`}>
           {user.initials}
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-white">{user.name}</p>
-          <p className="text-xs text-indigo-200/60">{user.role}</p>
+          <p className="text-xs text-primary-200/60">{user.role}</p>
         </div>
         <button
           onClick={handleLogout}
           title="Logout"
           aria-label="Logout"
-          className="rounded-lg p-2 text-indigo-200/70 transition-colors hover:bg-white/10 hover:text-white"
+          className="rounded-lg p-2 text-primary-200/70 transition-colors hover:bg-white/10 hover:text-white"
         >
           <Icon path={icons.logout} className="h-4.5 w-4.5" />
         </button>
@@ -160,7 +161,7 @@ function DashboardLayout() {
           {authUser.role === 'patient' && (
             <Link
               to="/dashboard/book"
-              className="gradient-accent flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+              className="gradient-accent flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
             >
               <Icon path={icons.plus} className="h-4 w-4" />
               Book Appointment

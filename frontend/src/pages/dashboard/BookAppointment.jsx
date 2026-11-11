@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import SelectField from '../../components/SelectField'
 import Button from '../../components/Button'
+import Card from '../../components/ui/Card'
 import { getServices, getServiceDoctors, getSlots } from '../../services/serviceService'
 import { createAppointment } from '../../services/appointmentService'
 
@@ -30,7 +31,7 @@ function StepTitle({ number, children, right }) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2.5">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-primary-600 to-violet-600 text-xs font-bold text-white">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-linear-to-br from-primary-600 to-secondary-600 text-xs font-bold text-white">
           {number}
         </span>
         <h2 className="text-sm font-bold text-slate-900">{children}</h2>
@@ -205,7 +206,7 @@ function BookAppointment() {
   if (booked) {
     return (
       <div className="mx-auto mt-4 flex max-w-md flex-col items-center rounded-3xl border border-slate-200/70 bg-white p-8 text-center shadow-sm">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-emerald-400 to-teal-500 text-white shadow-lg shadow-emerald-500/30">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-success-500 to-success-600 text-white shadow-lg shadow-success-500/30">
           <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 13l4 4L19 7" />
           </svg>
@@ -225,7 +226,7 @@ function BookAppointment() {
         <div className="mt-6 flex w-full flex-col gap-3 sm:flex-row">
           <Link
             to="/dashboard/appointments"
-            className="gradient-accent flex h-11 flex-1 items-center justify-center rounded-xl text-sm font-semibold text-white shadow-lg shadow-fuchsia-500/25"
+            className="gradient-accent flex h-11 flex-1 items-center justify-center rounded-xl text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
           >
             My Appointments
           </Link>
@@ -246,11 +247,11 @@ function BookAppointment() {
       <p className="mt-1 text-sm text-slate-500">Pick a service, doctor, date and time.</p>
 
       {servicesError && (
-        <p className="mt-3 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-600">{servicesError}</p>
+        <p className="mt-3 rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600">{servicesError}</p>
       )}
 
       <div className="mt-4 grid gap-4 lg:grid-cols-5">
-        <section className="space-y-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm lg:col-span-3">
+        <Card as="section" className="space-y-4 lg:col-span-3">
           <div>
             <StepTitle number={1}>Service &amp; Doctor</StepTitle>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -294,11 +295,10 @@ function BookAppointment() {
                 <button
                   key={d.key}
                   onClick={() => handleDateChange(d.key)}
-                  className={`flex flex-col items-center rounded-xl py-2 transition-all duration-200 ${
-                    dateKey === d.key
-                      ? 'bg-linear-to-br from-primary-600 to-violet-600 text-white shadow-lg shadow-primary-600/25'
+                  className={`flex flex-col items-center rounded-xl py-2 transition-all duration-200 ${dateKey === d.key
+                      ? 'bg-linear-to-br from-primary-600 to-secondary-600 text-white shadow-lg shadow-primary-600/25'
                       : 'border border-slate-200 bg-white text-slate-600 hover:border-primary-500 hover:text-primary-600'
-                  }`}
+                    }`}
                 >
                   <span className="text-xs font-medium opacity-80">{d.weekday}</span>
                   <span className="text-base font-bold leading-tight">{d.day}</span>
@@ -337,7 +337,7 @@ function BookAppointment() {
                   ))}
                 </div>
               ) : slotsError ? (
-                <div className="flex h-40 items-center justify-center rounded-xl bg-rose-50 px-4 text-center text-sm text-rose-600">
+                <div className="flex h-40 items-center justify-center rounded-xl bg-danger-50 px-4 text-center text-sm text-danger-600">
                   {slotsError}
                 </div>
               ) : slots.length === 0 ? (
@@ -351,13 +351,12 @@ function BookAppointment() {
                       key={s.time}
                       disabled={!s.available}
                       onClick={() => setSlot(s.time)}
-                      className={`h-9 rounded-lg text-xs font-semibold transition-all duration-200 ${
-                        slot === s.time
-                          ? 'bg-linear-to-r from-primary-600 to-violet-600 text-white shadow-md shadow-primary-600/25'
+                      className={`h-9 rounded-lg text-xs font-semibold transition-all duration-200 ${slot === s.time
+                          ? 'bg-linear-to-r from-primary-600 to-secondary-600 text-white shadow-md shadow-primary-600/25'
                           : !s.available
-                          ? 'cursor-not-allowed bg-slate-100 text-slate-300 line-through'
-                          : 'border border-slate-200 bg-white text-slate-700 hover:border-primary-500 hover:text-primary-600'
-                      }`}
+                            ? 'cursor-not-allowed bg-slate-100 text-slate-300 line-through'
+                            : 'border border-slate-200 bg-white text-slate-700 hover:border-primary-500 hover:text-primary-600'
+                        }`}
                     >
                       {s.label}
                     </button>
@@ -366,9 +365,9 @@ function BookAppointment() {
               )}
             </div>
           </div>
-        </section>
+        </Card>
 
-        <section className="flex flex-col rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm lg:col-span-2">
+        <Card as="section" className="flex flex-col lg:col-span-2">
           <h2 className="text-base font-bold text-slate-900">Appointment Summary</h2>
 
           <dl className="mt-2 divide-y divide-slate-100 text-sm">
@@ -380,7 +379,7 @@ function BookAppointment() {
           </dl>
 
           <div className="mt-auto pt-4">
-            {bookError && <p className="mb-2 text-center text-xs text-rose-500">{bookError}</p>}
+            {bookError && <p className="mb-2 text-center text-xs text-danger-500">{bookError}</p>}
             <div className="mb-3 flex items-center justify-between rounded-xl bg-primary-50 px-4 py-3">
               <span className="text-sm font-medium text-slate-600">Consultation Fee</span>
               <span className="text-lg font-extrabold text-primary-700">
@@ -397,7 +396,7 @@ function BookAppointment() {
               Confirm Appointment
             </Button>
           </div>
-        </section>
+        </Card>
       </div>
     </div>
   )

@@ -156,7 +156,7 @@ Avatars (the round circle with initials) use only the three colors below, so the
 
 Rules:
 
-- The color is picked from the person's `id` (`id % 3`), so the same person always gets the same color.
+- The color is picked from the person's name (a simple hash), so the same person always gets the same color everywhere.
 - Never use status colors (`success`, `warning`, `info`, `danger`) for avatars.
 - Avatar text is always white, `font-bold`, and uses `text-xs` or `text-sm`.
 - The sidebar user card uses the same three colors.
@@ -234,3 +234,54 @@ Categories never use `danger` or `warning`, because those colors signal a proble
 | Women & Child | `accent` |
 
 The colors are defined in `categoryMeta` in `frontend/src/data/services.js`.
+
+### Skeleton
+
+A pulsing placeholder shown while data loads.
+
+| Prop | Values | Default | Notes |
+|---|---|---|---|
+| `variant` | `card`, `block` | `card` | `card` = white box with border (list rows), `block` = soft grey (slots, charts) |
+| `as` | any tag | `div` | use `li` inside a `ul` |
+| `className` | string | | set the height, for example `h-20` |
+
+### Modal
+
+The outer shell of every popup: dark overlay, white box, close on overlay click and Escape.
+
+| Prop | Values | Default | Notes |
+|---|---|---|---|
+| `onClose` | function | required | called on overlay click and Escape |
+| `size` | `sm`, `lg` | `sm` | `sm` for confirm dialogs, `lg` for forms |
+| `locked` | `true`, `false` | `false` | set `true` while saving so it cannot be closed |
+| `className` | string | | for example `text-center` |
+
+### PageHeader
+
+The page title with an optional subtitle. Anything passed as children (a search box, a button) sits on the right.
+
+| Prop | Values |
+|---|---|
+| `title` | text |
+| `subtitle` | text (optional) |
+| `children` | right-side actions (optional) |
+
+### Tabs
+
+Filter chips. The active chip uses `gradient-primary`.
+
+| Prop | Values | Notes |
+|---|---|---|
+| `items` | array of strings | chip names |
+| `active` | string | the selected chip |
+| `onChange` | function | gets the clicked chip name |
+| `getCount` | function (optional) | shows a count badge on each chip |
+
+### Avatar
+
+A round circle with initials. The color comes from the name (see section 2.7).
+
+| Prop | Values | Default |
+|---|---|---|
+| `name` | text | required |
+| `size` | `sm` (40px), `md` (44px) | `md` |

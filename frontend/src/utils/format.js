@@ -28,7 +28,12 @@ export function getInitials(name = '') {
 }
 
 export function avatarColor(seed) {
-  return AVATAR_COLORS[Number(seed) % AVATAR_COLORS.length]
+  const text = String(seed)
+  let hash = 0
+  for (let i = 0; i < text.length; i++) {
+    hash = (hash * 31 + text.charCodeAt(i)) % 1000
+  }
+  return AVATAR_COLORS[hash % AVATAR_COLORS.length]
 }
 
 // Aaj ki date 'YYYY-MM-DD' mein

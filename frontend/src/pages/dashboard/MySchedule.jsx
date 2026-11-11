@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
+import Card from '../../components/ui/Card'
 import { getSchedule, saveSchedule } from '../../services/doctorService'
 
 // Hafte ki tarteeb Monday se Sunday (Sunday ka number 0 hai)
@@ -114,7 +115,7 @@ function MySchedule() {
       </p>
 
       {loadError ? (
-        <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center text-sm text-rose-600">
+        <div className="mt-5 rounded-2xl border border-danger-200 bg-danger-50 p-8 text-center text-sm text-danger-600">
           {loadError}
         </div>
       ) : isLoading ? (
@@ -129,7 +130,7 @@ function MySchedule() {
             {WEEK.map(({ day, name }) => {
               const row = rows[day]
               return (
-                <li key={day} className="rounded-2xl border border-slate-200/70 bg-white px-5 py-3 shadow-sm">
+                <Card as="li" key={day} padding="sm">
                   <div className="flex flex-wrap items-center gap-4">
                     <button
                       type="button"
@@ -137,14 +138,12 @@ function MySchedule() {
                       aria-checked={row.enabled}
                       aria-label={`${name} available`}
                       onClick={() => updateRow(day, { enabled: !row.enabled })}
-                      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-                        row.enabled ? 'bg-linear-to-r from-primary-600 to-violet-600' : 'bg-slate-200'
-                      }`}
+                      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${row.enabled ? 'bg-linear-to-r from-primary-600 to-secodary-600' : 'bg-slate-200'
+                        }`}
                     >
                       <span
-                        className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${
-                          row.enabled ? 'translate-x-5' : ''
-                        }`}
+                        className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${row.enabled ? 'translate-x-5' : ''
+                          }`}
                       />
                     </button>
 
@@ -185,8 +184,8 @@ function MySchedule() {
                     )}
                   </div>
 
-                  {errors[day] && <p className="mt-2 text-xs text-rose-500">{errors[day]}</p>}
-                </li>
+                  {errors[day] && <p className="mt-2 text-xs text-danger-500">{errors[day]}</p>}
+                </Card>
               )
             })}
           </ul>
@@ -196,8 +195,8 @@ function MySchedule() {
               <p className="text-slate-500">
                 Working {workingDays} {workingDays === 1 ? 'day' : 'days'} a week
               </p>
-              {message && <p className="mt-1 font-medium text-emerald-600">{message}</p>}
-              {saveError && <p className="mt-1 font-medium text-rose-500">{saveError}</p>}
+              {message && <p className="mt-1 font-medium text-success-600">{message}</p>}
+              {saveError && <p className="mt-1 font-medium text-danger-500">{saveError}</p>}
             </div>
 
             <div className="w-full sm:w-52">

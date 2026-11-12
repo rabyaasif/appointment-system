@@ -98,3 +98,7 @@ The app runs on `http://localhost:5173`.
 ## Environment Variables
 
 Real `.env` files are never committed. Each folder has a `.env.example` showing what is needed.
+
+## Design System
+
+See [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) for colors, typography, spacing and reusable components.

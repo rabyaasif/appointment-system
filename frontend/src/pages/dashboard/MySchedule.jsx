@@ -3,6 +3,7 @@ import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
+import SelectField from '../../components/ui/SelectField'
 import { getSchedule, saveSchedule } from '../../services/doctorService'
 
 // Hafte ki tarteeb Monday se Sunday (Sunday ka number 0 hai)
@@ -32,9 +33,6 @@ function to12h(time) {
 const emptyRows = Object.fromEntries(
   WEEK.map(({ day }) => [day, { enabled: false, start: '09:00', end: '17:00' }])
 )
-
-const selectClass =
-  'h-10 rounded-xl border border-slate-200 bg-slate-50/60 px-3 text-sm text-slate-800 outline-none transition-all duration-200 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/15'
 
 function MySchedule() {
   const [rows, setRows] = useState(emptyRows)
@@ -155,31 +153,37 @@ function MySchedule() {
 
                     {row.enabled ? (
                       <div className="flex items-center gap-2">
-                        <select
+                        <SelectField
+                          name={`start-${day}`}
+                          label={`${name} start time`}
+                          hideLabel
+                          size="sm"
+                          className="w-36"
                           value={row.start}
                           onChange={(e) => updateRow(day, { start: e.target.value })}
-                          aria-label={`${name} start time`}
-                          className={selectClass}
                         >
                           {TIMES.map((time) => (
                             <option key={time} value={time}>
                               {to12h(time)}
                             </option>
                           ))}
-                        </select>
+                        </SelectField>
                         <span className="text-sm text-slate-400">to</span>
-                        <select
+                        <SelectField
+                          name={`end-${day}`}
+                          label={`${name} end time`}
+                          hideLabel
+                          size="sm"
+                          className="w-36"
                           value={row.end}
                           onChange={(e) => updateRow(day, { end: e.target.value })}
-                          aria-label={`${name} end time`}
-                          className={selectClass}
                         >
                           {TIMES.map((time) => (
                             <option key={time} value={time}>
                               {to12h(time)}
                             </option>
                           ))}
-                        </select>
+                        </SelectField>
                       </div>
                     ) : (
                       <p className="text-sm text-slate-400">Day off</p>

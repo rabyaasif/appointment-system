@@ -309,3 +309,47 @@ A multi-line text field with a label and a reserved space for the error message.
 | `error` | text | |
 | `placeholder` | text | |
 | `rows` | number | `3` |
+
+### Button
+
+All clickable actions. Use `type="button"` for buttons that are not meant to submit a form.
+
+| Prop | Values | Default | Notes |
+|---|---|---|---|
+| `variant` | `primary`, `secondary`, `danger`, `danger-outline`, `success`, `info` | `primary` | `primary` is the gradient call-to-action |
+| `size` | `md` (44px), `sm` | `md` | `sm` is for buttons inside list rows |
+| `fullWidth` | `true`, `false` | `false` | |
+| `isLoading`, `loadingText` | boolean, text | | shows a spinner and the text |
+| `as` | `button`, `Link` | `button` | `<Button as={Link} to="/...">` for navigation |
+| `type` | `submit`, `button` | `submit` | |
+
+| Variant | Used for |
+|---|---|
+| `primary` | the main action on a screen |
+| `secondary` | cancel, keep, edit, secondary actions |
+| `danger` | confirming a destructive action (Yes, delete) |
+| `danger-outline` | starting a destructive action inside a list (Cancel, Delete) |
+| `success` | Confirm |
+| `info` | Complete |
+
+### InputField
+
+A text field with a label and a reserved space for the error message. A password field gets a Show/Hide toggle.
+
+| Prop | Values |
+|---|---|
+| `label`, `name`, `value`, `onChange` | required |
+| `type` | `text` (default), `email`, `tel`, `password`, `number` |
+| `error`, `placeholder`, `autoComplete` | optional |
+
+### SelectField
+
+A dropdown with a label. Options are passed as children.
+
+| Prop | Values | Default |
+|---|---|---|
+| `label`, `name`, `value`, `onChange` | required | |
+| `disabled` | `true`, `false` | `false` |
+| `size` | `md` (44px), `sm` (40px) | `md` |
+| `hideLabel` | `true`, `false` | `false` (label stays available to screen readers) |
+| `className` | string | |

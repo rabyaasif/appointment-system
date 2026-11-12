@@ -4,6 +4,7 @@ import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
 import Tabs from '../../components/ui/Tabs'
+import SearchInput from '../../components/ui/SearchInput'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 
@@ -15,7 +16,6 @@ function Icon({ path, className = 'h-5 w-5' }) {
   )
 }
 
-const searchIcon = 'M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z'
 const clockIcon = 'M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z'
 
 function Services() {
@@ -54,16 +54,7 @@ function Services() {
   return (
     <div className="mx-auto max-w-5xl">
       <PageHeader title="Our Services" subtitle="Choose a service and book your slot in a few clicks.">
-        <div className="relative w-full sm:w-72">
-          <Icon path={searchIcon} className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search services..."
-            className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-slate-300 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/15"
-          />
-        </div>
+        <SearchInput value={search} onChange={setSearch} placeholder="Search services..." />
       </PageHeader>
 
       <Tabs items={categories} active={category} onChange={setCategory} className="mt-4" />

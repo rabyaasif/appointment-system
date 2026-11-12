@@ -5,6 +5,7 @@ import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
+import Textarea from '../../components/ui/Textarea'
 import Modal from '../../components/ui/Modal'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
@@ -271,24 +272,14 @@ function ManageServices() {
               />
             </div>
 
-            <div>
-              <label htmlFor="description" className="mb-1.5 block text-sm font-medium text-slate-700">
-                Description
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                rows={3}
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Short description of the service"
-                className={`w-full resize-none rounded-xl border bg-slate-50/60 px-4 py-2.5 text-sm text-slate-800 outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:ring-4 ${errors.description
-                  ? 'border-danger-500 focus:border-danger-500 focus:ring-danger-500/15'
-                  : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/15'
-                  }`}
-              />
-              <p className="mt-1 min-h-5 text-xs text-danger-500">{errors.description}</p>
-            </div>
+            <Textarea
+              label="Description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              error={errors.description}
+              placeholder="Short description of the service"
+            />
 
             {formError && <p className="text-center text-sm text-danger-500">{formError}</p>}
 

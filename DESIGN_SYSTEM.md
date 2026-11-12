@@ -285,3 +285,27 @@ A round circle with initials. The color comes from the name (see section 2.7).
 |---|---|---|
 | `name` | text | required |
 | `size` | `sm` (40px), `md` (44px) | `md` |
+
+### SearchInput
+
+A search box with a magnifier icon. `onChange` receives the text itself, not the event.
+
+| Prop | Values | Default |
+|---|---|---|
+| `value` | string | required |
+| `onChange` | function (gets the text) | required |
+| `placeholder` | string | `Search...` |
+| `className` | string | |
+
+### Textarea
+
+A multi-line text field with a label and a reserved space for the error message. It looks and behaves like `InputField`.
+
+| Prop | Values | Default |
+|---|---|---|
+| `label` | text | required |
+| `name` | string | required |
+| `value`, `onChange` | controlled value and handler | required |
+| `error` | text | |
+| `placeholder` | text | |
+| `rows` | number | `3` |

@@ -141,15 +141,12 @@ function ManageDoctors() {
   return (
     <div className="mx-auto max-w-5xl">
       <PageHeader title="Manage Doctors" subtitle="Add doctors and choose which services each one offers.">
-        <button
-          onClick={openAdd}
-          className="gradient-accent flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
-        >
+        <Button type="button" onClick={openAdd}>
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d={plusIcon} />
           </svg>
           Add Doctor
-        </button>
+        </Button>
       </PageHeader>
 
       {isLoading ? (
@@ -194,12 +191,9 @@ function ManageDoctors() {
                   : 'No services'}
               </Badge>
 
-              <button
-                onClick={() => openServices(doctor)}
-                className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-              >
+              <Button variant="secondary" size="sm" type="button" onClick={() => openServices(doctor)}>
                 Manage Services
-              </button>
+              </Button>
             </Card>
           ))}
         </ul>
@@ -207,131 +201,122 @@ function ManageDoctors() {
 
       {showAdd && (
         <Modal onClose={closeAdd} locked={isSaving} size="lg">
-            <h2 className="text-lg font-bold text-slate-900">Add Doctor</h2>
-            <p className="mb-4 mt-1 text-sm text-slate-500">
-              The doctor logs in with this email and password. Share them privately.
-            </p>
+          <h2 className="text-lg font-bold text-slate-900">Add Doctor</h2>
+          <p className="mb-4 mt-1 text-sm text-slate-500">
+            The doctor logs in with this email and password. Share them privately.
+          </p>
 
-            <form onSubmit={handleAdd} noValidate className="space-y-1">
-              <div className="grid gap-x-4 sm:grid-cols-2">
-                <InputField
-                  label="Full Name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  error={errors.name}
-                  placeholder="Dr. Full Name"
-                />
-                <InputField
-                  label="Specialty"
-                  name="specialty"
-                  value={formData.specialty}
-                  onChange={handleChange}
-                  error={errors.specialty}
-                  placeholder="e.g. ENT Specialist"
-                />
-              </div>
-
-              <div className="grid gap-x-4 sm:grid-cols-2">
-                <InputField
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  error={errors.email}
-                  placeholder="doctor@clinic.com"
-                />
-                <InputField
-                  label="Phone Number"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  error={errors.phone}
-                  placeholder="03001234567"
-                />
-              </div>
-
+          <form onSubmit={handleAdd} noValidate className="space-y-1">
+            <div className="grid gap-x-4 sm:grid-cols-2">
               <InputField
-                label="Password"
-                name="password"
-                type="password"
-                value={formData.password}
+                label="Full Name"
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
-                error={errors.password}
-                placeholder="At least 8 characters"
-                autoComplete="new-password"
+                error={errors.name}
+                placeholder="Dr. Full Name"
               />
+              <InputField
+                label="Specialty"
+                name="specialty"
+                value={formData.specialty}
+                onChange={handleChange}
+                error={errors.specialty}
+                placeholder="e.g. ENT Specialist"
+              />
+            </div>
 
-              {formError && <p className="text-center text-sm text-danger-500">{formError}</p>}
+            <div className="grid gap-x-4 sm:grid-cols-2">
+              <InputField
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                error={errors.email}
+                placeholder="doctor@clinic.com"
+              />
+              <InputField
+                label="Phone Number"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                error={errors.phone}
+                placeholder="03001234567"
+              />
+            </div>
 
-              <div className="flex gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={closeAdd}
-                  disabled={isSaving}
-                  className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-60"
-                >
-                  Cancel
-                </button>
-                <div className="flex-1">
-                  <Button fullWidth isLoading={isSaving} loadingText="Adding...">
-                    Add Doctor
-                  </Button>
-                </div>
+            <InputField
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              error={errors.password}
+              placeholder="At least 8 characters"
+              autoComplete="new-password"
+            />
+
+            {formError && <p className="text-center text-sm text-danger-500">{formError}</p>}
+
+            <div className="flex gap-3 pt-2">
+              <Button variant="secondary" type="button" className="flex-1" disabled={isSaving} onClick={closeAdd}>
+                Cancel
+              </Button>
+              <div className="flex-1">
+                <Button fullWidth isLoading={isSaving} loadingText="Adding...">
+                  Add Doctor
+                </Button>
               </div>
-            </form>
-         </Modal>
+            </div>
+          </form>
+        </Modal>
       )}
 
       {serviceTarget && (
         <Modal onClose={() => setServiceTarget(null)} locked={isSavingServices} size="lg">
-            <h2 className="text-lg font-bold text-slate-900">Services for {serviceTarget.name}</h2>
-            <p className="mb-4 mt-1 text-sm text-slate-500">
-              Patients can book this doctor only for the selected services.
-            </p>
+          <h2 className="text-lg font-bold text-slate-900">Services for {serviceTarget.name}</h2>
+          <p className="mb-4 mt-1 text-sm text-slate-500">
+            Patients can book this doctor only for the selected services.
+          </p>
 
-            <div className="grid max-h-72 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
-              {services.map((service) => {
-                const checked = selectedIds.includes(service.id)
-                return (
-                  <label
-                    key={service.id}
-                    className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-2.5 text-sm transition-colors ${checked
-                      ? 'border-primary-500 bg-primary-50 text-primary-700'
-                      : 'border-slate-200 text-slate-700 hover:bg-slate-50'
-                      }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggleService(service.id)}
-                      className="h-4 w-4 accent-primary-600"
-                    />
-                    <span className="truncate">{service.name}</span>
-                  </label>
-                )
-              })}
+          <div className="grid max-h-72 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+            {services.map((service) => {
+              const checked = selectedIds.includes(service.id)
+              return (
+                <label
+                  key={service.id}
+                  className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-2.5 text-sm transition-colors ${checked
+                    ? 'border-primary-500 bg-primary-50 text-primary-700'
+                    : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                    }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleService(service.id)}
+                    className="h-4 w-4 accent-primary-600"
+                  />
+                  <span className="truncate">{service.name}</span>
+                </label>
+              )
+            })}
+          </div>
+
+          {servicesError && <p className="mt-3 text-center text-sm text-danger-500">{servicesError}</p>}
+
+          <div className="mt-5 flex gap-3">
+            <Button variant="secondary" type="button" className="flex-1" disabled={isSavingServices} onClick={() => setServiceTarget(null)}>
+              Cancel
+            </Button>
+            <div className="flex-1">
+              <Button fullWidth type="button" onClick={handleSaveServices} isLoading={isSavingServices} loadingText="Saving...">
+                Save Services
+              </Button>
             </div>
-
-            {servicesError && <p className="mt-3 text-center text-sm text-danger-500">{servicesError}</p>}
-
-            <div className="mt-5 flex gap-3">
-              <button
-                onClick={() => setServiceTarget(null)}
-                disabled={isSavingServices}
-                className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-60"
-              >
-                Cancel
-              </button>
-              <div className="flex-1">
-                <Button fullWidth type="button" onClick={handleSaveServices} isLoading={isSavingServices} loadingText="Saving...">
-                  Save Services
-                </Button>
-              </div>
-            </div>
-         </Modal>
+          </div>
+        </Modal>
       )}
     </div>
   )

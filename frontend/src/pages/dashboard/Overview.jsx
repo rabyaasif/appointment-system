@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../../components/ui/Card'
 import Avatar from '../../components/ui/Avatar'
+import Button from '../../components/ui/Button'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getMyAppointments } from '../../services/appointmentService'
@@ -138,12 +139,9 @@ function Overview() {
         ) : !isLoading && upcoming.length === 0 ? (
           <div className="px-6 py-8 text-center">
             <p className="text-sm text-slate-500">Nothing booked yet.</p>
-            <Link
-              to="/dashboard/book"
-              className="gradient-accent mt-3 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
-            >
+            <Button as={Link} to="/dashboard/book" className="mt-3">
               Book Appointment
-            </Link>
+            </Button>
           </div>
         ) : (
           <ul className="divide-y divide-slate-100">

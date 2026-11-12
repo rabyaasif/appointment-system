@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import Avatar from './ui/Avatar'
+import Button from './ui/Button'
 
 const icons = {
   overview:
@@ -158,13 +159,10 @@ function DashboardLayout() {
           </div>
 
           {authUser.role === 'patient' && (
-            <Link
-              to="/dashboard/book"
-              className="gradient-accent flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
-            >
+            <Button as={Link} to="/dashboard/book">
               <Icon path={icons.plus} className="h-4 w-4" />
               Book Appointment
-            </Link>
+            </Button>
           )}
         </header>
 

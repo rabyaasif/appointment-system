@@ -87,12 +87,9 @@ function MyAppointments() {
       ) : filtered.length === 0 ? (
         <div className="mt-5 rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
           <p className="text-sm text-slate-500">No appointments found here.</p>
-          <Link
-            to="/dashboard/book"
-            className="gradient-accent mt-4 inline-flex h-10 items-center rounded-xl px-5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
-          >
+          <Button as={Link} to="/dashboard/book" className="mt-4">
             Book Appointment
-          </Link>
+          </Button>
         </div>
       ) : (
         <ul className="mt-5 space-y-3">

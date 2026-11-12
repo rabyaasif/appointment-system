@@ -226,18 +226,12 @@ function BookAppointment() {
         </dl>
 
         <div className="mt-6 flex w-full flex-col gap-3 sm:flex-row">
-          <Link
-            to="/dashboard/appointments"
-            className="gradient-accent flex h-11 flex-1 items-center justify-center rounded-xl text-sm font-semibold text-white shadow-lg shadow-accent-500/25"
-          >
+          <Button as={Link} to="/dashboard/appointments" className="flex-1">
             My Appointments
-          </Link>
-          <button
-            onClick={resetForm}
-            className="h-11 flex-1 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-          >
+          </Button>
+          <Button variant="secondary" type="button" className="flex-1" onClick={resetForm}>
             Book Another
-          </button>
+          </Button>
         </div>
       </div>
     )

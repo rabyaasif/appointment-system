@@ -5,8 +5,8 @@ import PageHeader from '../../components/ui/PageHeader'
 import Badge from '../../components/ui/Badge'
 import Avatar from '../../components/ui/Avatar'
 import Modal from '../../components/ui/Modal'
-import InputField from '../../components/InputField'
-import Button from '../../components/Button'
+import InputField from '../../components/ui/InputField'
+import Button from '../../components/ui/Button'
 import { getServices } from '../../services/serviceService'
 import { getDoctors, createDoctor, setDoctorServices } from '../../services/adminService'
 
@@ -276,7 +276,7 @@ function ManageDoctors() {
                   Cancel
                 </button>
                 <div className="flex-1">
-                  <Button isLoading={isSaving} loadingText="Adding...">
+                  <Button fullWidth isLoading={isSaving} loadingText="Adding...">
                     Add Doctor
                   </Button>
                 </div>
@@ -326,7 +326,7 @@ function ManageDoctors() {
                 Cancel
               </button>
               <div className="flex-1">
-                <Button type="button" onClick={handleSaveServices} isLoading={isSavingServices} loadingText="Saving...">
+                <Button fullWidth type="button" onClick={handleSaveServices} isLoading={isSavingServices} loadingText="Saving...">
                   Save Services
                 </Button>
               </div>

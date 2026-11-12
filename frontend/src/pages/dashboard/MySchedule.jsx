@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Button from '../../components/Button'
+import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
@@ -202,7 +202,7 @@ function MySchedule() {
             </div>
 
             <div className="w-full sm:w-52">
-              <Button type="button" onClick={handleSave} isLoading={isSaving} loadingText="Saving...">
+              <Button fullWidth type="button" onClick={handleSave} isLoading={isSaving} loadingText="Saving...">
                 Save Schedule
               </Button>
             </div>

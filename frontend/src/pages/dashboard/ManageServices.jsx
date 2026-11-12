@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import InputField from '../../components/InputField'
-import SelectField from '../../components/SelectField'
-import Button from '../../components/Button'
+import InputField from '../../components/ui/InputField'
+import SelectField from '../../components/ui/SelectField'
+import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
@@ -311,7 +311,7 @@ function ManageServices() {
                   Cancel
                 </button>
                 <div className="flex-1">
-                  <Button isLoading={isSaving} loadingText="Saving...">
+                  <Button fullWidth isLoading={isSaving} loadingText="Saving...">
                     Save Service
                   </Button>
                 </div>

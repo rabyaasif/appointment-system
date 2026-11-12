@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
-import Button from '../components/Button'
+import Button from '../components/ui/Button'
 import { verifyOtp } from '../services/authService'
 
 const OTP_LENGTH = 6
@@ -126,7 +126,7 @@ function VerifyOtp() {
         )}
 
         <div className="pt-1">
-          <Button isLoading={isLoading} loadingText="Verifying...">
+          <Button fullWidth isLoading={isLoading} loadingText="Verifying...">
             Verify Email
           </Button>
         </div>

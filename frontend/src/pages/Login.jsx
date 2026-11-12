@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
-import InputField from '../components/InputField'
-import Button from '../components/Button'
+import InputField from '../components/ui/InputField'
+import Button from '../components/ui/Button'
 import { resendOtp } from '../services/authService'
 import { useAuth } from '../hooks/useAuth'
 
@@ -103,7 +103,7 @@ function Login() {
         {formError && <p className="pt-1 text-center text-sm text-danger-500">{formError}</p>}
 
         <div className="pt-2">
-          <Button isLoading={isLoading} loadingText="Logging in...">
+          <Button fullWidth isLoading={isLoading} loadingText="Logging in...">
             Login
           </Button>
         </div>

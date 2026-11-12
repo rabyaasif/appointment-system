@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import SelectField from '../../components/SelectField'
-import Button from '../../components/Button'
+import SelectField from '../../components/ui/SelectField'
+import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
@@ -387,7 +387,7 @@ function BookAppointment() {
                 {service ? `Rs ${service.price.toLocaleString()}` : '—'}
               </span>
             </div>
-            <Button
+            <Button fullWidth
               type="button"
               onClick={handleConfirm}
               isLoading={isLoading}

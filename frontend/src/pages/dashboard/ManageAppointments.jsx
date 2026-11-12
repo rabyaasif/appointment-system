@@ -4,6 +4,7 @@ import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
 import Tabs from '../../components/ui/Tabs'
 import Avatar from '../../components/ui/Avatar'
+import Button from '../../components/ui/Button'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { useAuth } from '../../hooks/useAuth'
 import { getManagedAppointments, updateAppointmentStatus } from '../../services/manageService'
@@ -144,31 +145,19 @@ function ManageAppointments() {
 
                 <div className="flex w-44 justify-end gap-2">
                   {item.status === 'pending' && (
-                    <button
-                      disabled={busy}
-                      onClick={() => changeStatus(item, 'confirmed')}
-                      className="rounded-lg bg-success-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-success-600 disabled:opacity-60"
-                    >
+                    <Button variant="success" size="sm" type="button" disabled={busy} onClick={() => changeStatus(item, 'confirmed')}>
                       {busy ? '...' : 'Confirm'}
-                    </button>
+                    </Button>
                   )}
                   {item.status === 'confirmed' && (
-                    <button
-                      disabled={busy}
-                      onClick={() => changeStatus(item, 'completed')}
-                      className="rounded-lg bg-info-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-info-600 disabled:opacity-60"
-                    >
+                    <Button variant="info" size="sm" type="button" disabled={busy} onClick={() => changeStatus(item, 'completed')}>
                       {busy ? '...' : 'Complete'}
-                    </button>
+                    </Button>
                   )}
                   {(item.status === 'pending' || item.status === 'confirmed') && (
-                    <button
-                      disabled={busy}
-                      onClick={() => setCancelTarget(item)}
-                      className="rounded-lg border border-danger-200 px-3 py-1.5 text-xs font-semibold text-danger-600 transition-colors hover:bg-danger-50 disabled:opacity-60"
-                    >
+                    <Button variant="danger-outline" size="sm" type="button" disabled={busy} onClick={() => setCancelTarget(item)}>
                       Cancel
-                    </button>
+                    </Button>
                   )}
                 </div>
               </Card>
@@ -179,34 +168,28 @@ function ManageAppointments() {
 
       {cancelTarget && (
         <Modal onClose={() => setCancelTarget(null)} className="text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
-              <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-            </div>
-            <h2 className="mt-4 text-lg font-bold text-slate-900">Cancel this appointment?</h2>
-            <p className="mt-1.5 text-sm text-slate-500">
-              {cancelTarget.service} for {cancelTarget.patient} on {formatDate(cancelTarget.date)} at{' '}
-              {cancelTarget.time}.
-            </p>
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
+            <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h2 className="mt-4 text-lg font-bold text-slate-900">Cancel this appointment?</h2>
+          <p className="mt-1.5 text-sm text-slate-500">
+            {cancelTarget.service} for {cancelTarget.patient} on {formatDate(cancelTarget.date)} at{' '}
+            {cancelTarget.time}.
+          </p>
 
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => setCancelTarget(null)}
-                className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-              >
-                Keep it
-              </button>
-              <button
-                onClick={() => changeStatus(cancelTarget, 'cancelled')}
-                className="h-11 flex-1 rounded-xl bg-danger-500 text-sm font-semibold text-white shadow-lg shadow-danger-500/25 transition-all hover:bg-danger-600 active:scale-[0.98]"
-              >
-                Yes, cancel
-              </button>
-            </div>
-          </Modal>
-  )
-}
+          <div className="mt-6 flex gap-3">
+            <Button variant="secondary" type="button" className="flex-1" onClick={() => setCancelTarget(null)}>
+              Keep it
+            </Button>
+            <Button variant="danger" type="button" className="flex-1" onClick={() => changeStatus(cancelTarget, 'cancelled')}>
+              Yes, cancel
+            </Button>
+          </div>
+        </Modal>
+      )
+      }
     </div >
   )
 }

@@ -6,6 +6,7 @@ import PageHeader from '../../components/ui/PageHeader'
 import Tabs from '../../components/ui/Tabs'
 import Avatar from '../../components/ui/Avatar'
 import Modal from '../../components/ui/Modal'
+import Button from '../../components/ui/Button'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { getMyAppointments, cancelAppointment } from '../../services/appointmentService'
 import { formatDate, capitalize } from '../../utils/format'
@@ -123,12 +124,9 @@ function MyAppointments() {
 
                 <div className="flex w-20 justify-end">
                   {canCancel && (
-                    <button
-                      onClick={() => openCancel(item)}
-                      className="rounded-lg border border-danger-200 px-3 py-1.5 text-xs font-semibold text-danger-600 transition-colors hover:bg-danger-50"
-                    >
+                    <Button variant="danger-outline" size="sm" type="button" onClick={() => openCancel(item)}>
                       Cancel
-                    </button>
+                    </Button>
                   )}
                 </div>
               </Card>
@@ -153,20 +151,19 @@ function MyAppointments() {
           {cancelError && <p className="mt-3 text-sm text-danger-500">{cancelError}</p>}
 
           <div className="mt-6 flex gap-3">
-            <button
-              onClick={() => setCancelTarget(null)}
-              disabled={isCancelling}
-              className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-60"
-            >
+            <Button variant="secondary" type="button" className="flex-1" disabled={isCancelling} onClick={() => setCancelTarget(null)}>
               Keep it
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="danger"
+              type="button"
+              className="flex-1"
+              isLoading={isCancelling}
+              loadingText="Cancelling..."
               onClick={handleCancel}
-              disabled={isCancelling}
-              className="h-11 flex-1 rounded-xl bg-danger-500 text-sm font-semibold text-white shadow-lg shadow-danger-500/25 transition-all hover:bg-danger-600 active:scale-[0.98] disabled:opacity-60"
             >
-              {isCancelling ? 'Cancelling...' : 'Yes, cancel'}
-            </button>
+              Yes, cancel
+            </Button>
           </div>
         </Modal>
       )}

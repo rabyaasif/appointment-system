@@ -5,6 +5,7 @@ import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
 import Tabs from '../../components/ui/Tabs'
 import Avatar from '../../components/ui/Avatar'
+import Modal from '../../components/ui/Modal'
 import StatusBadge from '../../components/ui/StatusBadge'
 import { getMyAppointments, cancelAppointment } from '../../services/appointmentService'
 import { formatDate, capitalize } from '../../utils/format'
@@ -137,40 +138,37 @@ function MyAppointments() {
       )}
 
       {cancelTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/50" onClick={() => !isCancelling && setCancelTarget(null)} />
-          <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
-              <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-            </div>
-            <h2 className="mt-4 text-lg font-bold text-slate-900">Cancel this appointment?</h2>
-            <p className="mt-1.5 text-sm text-slate-500">
-              {cancelTarget.service} with {cancelTarget.doctor} on {formatDate(cancelTarget.date)} at{' '}
-              {cancelTarget.time}.
-            </p>
-
-            {cancelError && <p className="mt-3 text-sm text-danger-500">{cancelError}</p>}
-
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => setCancelTarget(null)}
-                disabled={isCancelling}
-                className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-60"
-              >
-                Keep it
-              </button>
-              <button
-                onClick={handleCancel}
-                disabled={isCancelling}
-                className="h-11 flex-1 rounded-xl bg-danger-500 text-sm font-semibold text-white shadow-lg shadow-danger-500/25 transition-all hover:bg-danger-600 active:scale-[0.98] disabled:opacity-60"
-              >
-                {isCancelling ? 'Cancelling...' : 'Yes, cancel'}
-              </button>
-            </div>
+        <Modal onClose={() => setCancelTarget(null)} locked={isCancelling} className="text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
+            <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
           </div>
-        </div>
+          <h2 className="mt-4 text-lg font-bold text-slate-900">Cancel this appointment?</h2>
+          <p className="mt-1.5 text-sm text-slate-500">
+            {cancelTarget.service} with {cancelTarget.doctor} on {formatDate(cancelTarget.date)} at{' '}
+            {cancelTarget.time}.
+          </p>
+
+          {cancelError && <p className="mt-3 text-sm text-danger-500">{cancelError}</p>}
+
+          <div className="mt-6 flex gap-3">
+            <button
+              onClick={() => setCancelTarget(null)}
+              disabled={isCancelling}
+              className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-60"
+            >
+              Keep it
+            </button>
+            <button
+              onClick={handleCancel}
+              disabled={isCancelling}
+              className="h-11 flex-1 rounded-xl bg-danger-500 text-sm font-semibold text-white shadow-lg shadow-danger-500/25 transition-all hover:bg-danger-600 active:scale-[0.98] disabled:opacity-60"
+            >
+              {isCancelling ? 'Cancelling...' : 'Yes, cancel'}
+            </button>
+          </div>
+        </Modal>
       )}
     </div>
   )

@@ -178,9 +178,7 @@ function ManageAppointments() {
       )}
 
       {cancelTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/50" onClick={() => setCancelTarget(null)} />
-          <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl">
+        <Modal onClose={() => setCancelTarget(null)} className="text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
               <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -206,10 +204,10 @@ function ManageAppointments() {
                 Yes, cancel
               </button>
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+          </Modal>
+  )
+}
+    </div >
   )
 }
 

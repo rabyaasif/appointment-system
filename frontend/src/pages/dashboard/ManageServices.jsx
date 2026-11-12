@@ -5,6 +5,7 @@ import Button from '../../components/Button'
 import Card from '../../components/ui/Card'
 import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
+import Modal from '../../components/ui/Modal'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 import { createService, updateService, deleteService } from '../../services/adminService'
@@ -229,9 +230,7 @@ function ManageServices() {
       )}
 
       {editing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/50" onClick={closeForm} />
-          <div className="relative w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
+        <Modal onClose={closeForm} locked={isSaving} size="lg">
             <h2 className="text-lg font-bold text-slate-900">{editing.id ? 'Edit Service' : 'Add Service'}</h2>
             <p className="mb-4 mt-1 text-sm text-slate-500">
               {editing.id ? 'Update the details below.' : 'Fill in the details of the new service.'}
@@ -318,14 +317,11 @@ function ManageServices() {
                 </div>
               </div>
             </form>
-          </div>
-        </div>
+          </Modal>
       )}
 
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/50" onClick={() => !isDeleting && setDeleteTarget(null)} />
-          <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl">
+        <Modal onClose={() => setDeleteTarget(null)} locked={isDeleting} className="text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 text-danger-500">
               <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -354,8 +350,7 @@ function ManageServices() {
                 {isDeleting ? 'Deleting...' : 'Yes, delete'}
               </button>
             </div>
-          </div>
-        </div>
+          </Modal>
       )}
     </div>
   )

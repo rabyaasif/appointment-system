@@ -4,6 +4,7 @@ import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
 import Badge from '../../components/ui/Badge'
 import Avatar from '../../components/ui/Avatar'
+import Modal from '../../components/ui/Modal'
 import InputField from '../../components/InputField'
 import Button from '../../components/Button'
 import { getServices } from '../../services/serviceService'
@@ -205,9 +206,7 @@ function ManageDoctors() {
       )}
 
       {showAdd && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/50" onClick={closeAdd} />
-          <div className="relative w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
+        <Modal onClose={closeAdd} locked={isSaving} size="lg">
             <h2 className="text-lg font-bold text-slate-900">Add Doctor</h2>
             <p className="mb-4 mt-1 text-sm text-slate-500">
               The doctor logs in with this email and password. Share them privately.
@@ -283,17 +282,11 @@ function ManageDoctors() {
                 </div>
               </div>
             </form>
-          </div>
-        </div>
+         </Modal>
       )}
 
       {serviceTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-slate-900/50"
-            onClick={() => !isSavingServices && setServiceTarget(null)}
-          />
-          <div className="relative w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
+        <Modal onClose={() => setServiceTarget(null)} locked={isSavingServices} size="lg">
             <h2 className="text-lg font-bold text-slate-900">Services for {serviceTarget.name}</h2>
             <p className="mb-4 mt-1 text-sm text-slate-500">
               Patients can book this doctor only for the selected services.
@@ -338,8 +331,7 @@ function ManageDoctors() {
                 </Button>
               </div>
             </div>
-          </div>
-        </div>
+         </Modal>
       )}
     </div>
   )

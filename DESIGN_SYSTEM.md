@@ -14,6 +14,19 @@
 | Input box | 6 | 6 | `Input`, `Select` and `Textarea` components |
 | Status badge | 5 | 5 | One `Badge` component |
 
+## 4. Audit result (before and after)
+
+| Item | Before | After |
+|---|---|---|
+| Card style repeated | 20 in 9 files | 2 in 2 | 
+| Page heading style | 14 in 12 files | 8 in 7 |
+| Gradient button style | 9 in 8 files | 2 in 1 |
+| Skeleton style | 8 in 8 files | 1 in 1 |
+| Modal shell | 6 in 4 files | 1 in 1 |
+| Input focus style | 6 in 6 files | 5 in 4 |
+| Status badge style | 5 in 5 files | 0 |
+| `rose` (second red) | 75 in 11 files | 0 |
+
 ### Colors in use
 
 - Brand: `brand` (indigo), `violet`

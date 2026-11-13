@@ -9,7 +9,7 @@ const variants = {
 }
 
 function IconButton({
-  icon,
+    icon: Icon,
   label,
   variant = 'neutral',
   type = 'button',
@@ -32,17 +32,7 @@ function IconButton({
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
         </svg>
       ) : (
-        <svg
-          className="h-5 w-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d={icon} />
-        </svg>
+        <Icon className="h-5 w-5" strokeWidth={1.8} />
       )}
 
       <span

@@ -7,6 +7,8 @@ import Avatar from '../../components/ui/Avatar'
 import Button from '../../components/ui/Button'
 import StatusBadge from '../../components/ui/StatusBadge'
 import SearchInput from '../../components/ui/SearchInput'
+import IconButton from '../../components/ui/IconButton'
+import { actionIcons } from '../../components/ui/icons'
 import { useAuth } from '../../hooks/useAuth'
 import { getManagedAppointments, updateAppointmentStatus } from '../../services/manageService'
 import { formatDate, capitalize } from '../../utils/format'
@@ -131,21 +133,15 @@ function ManageAppointments() {
 
                 <StatusBadge status={item.status} className="w-28 justify-center" />
 
-                <div className="flex w-44 justify-end gap-2">
+                <div className="flex w-32 justify-end gap-2">
                   {item.status === 'pending' && (
-                    <Button variant="success" size="sm" type="button" disabled={busy} onClick={() => changeStatus(item, 'confirmed')}>
-                      {busy ? '...' : 'Confirm'}
-                    </Button>
+                    <IconButton icon={actionIcons.check} label="Confirm" variant="success" isLoading={busy} onClick={() => changeStatus(item, 'confirmed')} />
                   )}
                   {item.status === 'confirmed' && (
-                    <Button variant="info" size="sm" type="button" disabled={busy} onClick={() => changeStatus(item, 'completed')}>
-                      {busy ? '...' : 'Complete'}
-                    </Button>
+                    <IconButton icon={actionIcons.checkCircle} label="Complete" variant="info" isLoading={busy} onClick={() => changeStatus(item, 'completed')} />
                   )}
                   {(item.status === 'pending' || item.status === 'confirmed') && (
-                    <Button variant="danger-outline" size="sm" type="button" disabled={busy} onClick={() => setCancelTarget(item)}>
-                      Cancel
-                    </Button>
+                    <IconButton icon={actionIcons.xCircle} label="Cancel" variant="danger" disabled={busy} onClick={() => setCancelTarget(item)} />
                   )}
                 </div>
               </Card>

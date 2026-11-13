@@ -42,6 +42,25 @@ function Icon({ path, className = 'h-5 w-5' }) {
 
 function DashboardLayout() {
   const [open, setOpen] = useState(false)
+  const [collapsed, setCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem('sidebar-collapsed') === 'true'
+    } catch {
+      return false
+    }
+  })
+
+  const toggleCollapsed = () => {
+    setCollapsed((prev) => {
+      const next = !prev
+      try {
+        localStorage.setItem('sidebar-collapsed', String(next))
+      } catch {
+        // storage band ho to bhi sidebar chalega
+      }
+      return next
+    })
+  }
   const navigate = useNavigate()
   const { user: authUser, logout } = useAuth()
 
@@ -70,21 +89,23 @@ function DashboardLayout() {
     month: 'long',
   })
 
-  const sidebar = (
-    <div className="relative flex h-full flex-col overflow-hidden gradient-sidebar px-4 py-6">
+  const renderSidebar = (isCollapsed) => (
+    <div className={`relative flex h-full flex-col overflow-hidden gradient-sidebar py-6 ${isCollapsed ? 'px-3' : 'px-4'}`}>
       <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-primary-500/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-accent-500/20 blur-3xl" />
 
-      <div className="relative mb-8 flex items-center gap-3 px-2">
+      <div className={`relative mb-8 flex items-center gap-3 ${isCollapsed ? 'justify-center' : 'px-2'}`}>
         <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary shadow-lg shadow-primary-500/30">
           <Icon path={icons.calendar} className="h-5 w-5 text-white" />
         </div>
-        <span className="text-base font-bold text-white">Smart Appointment</span>
+        {!isCollapsed && <span className="text-base font-bold text-white">Smart Appointment</span>}
       </div>
 
-      <p className="relative mb-2 px-3 text-xs font-semibold uppercase tracking-widest text-primary-200/50">
-        Menu
-      </p>
+      {!isCollapsed && (
+        <p className="relative mb-2 px-3 text-xs font-semibold uppercase tracking-widest text-primary-200/50">
+          Menu
+        </p>
+      )}
 
       <nav className="relative flex-1 space-y-1.5">
         {visibleNav.map((item) => (
@@ -93,8 +114,10 @@ function DashboardLayout() {
             to={item.to}
             end={item.end}
             onClick={() => setOpen(false)}
+            title={isCollapsed ? item.label : undefined}
+            aria-label={item.label}
             className={({ isActive }) =>
-              `group flex items-center gap-3 rounded-xl p-2 pr-3 text-sm font-medium transition-all duration-200 ${isActive
+              `group flex items-center rounded-xl p-2 ${isCollapsed ? 'justify-center' : 'gap-3 pr-3'} text-sm font-medium transition-all duration-200 ${isActive
                 ? 'gradient-primary text-white shadow-lg shadow-primary-500/30'
                 : 'text-primary-100/70 hover:bg-white/10 hover:text-white'
               }`
@@ -108,20 +131,22 @@ function DashboardLayout() {
                 >
                   <Icon path={item.icon} className="h-4.5 w-4.5" />
                 </span>
-                {item.label}
+                {!isCollapsed && item.label}
               </>
             )}
           </NavLink>
         ))}
       </nav>
 
-      <div className="relative flex items-center gap-3 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
+      <div className={`relative flex items-center rounded-2xl bg-white/5 ring-1 ring-white/10 ${isCollapsed ? 'flex-col gap-2 p-2' : 'gap-3 p-3'}`}>
         <Avatar name={authUser.name} size="sm" />
 
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-white">{user.name}</p>
-          <p className="text-xs text-primary-200/60">{user.role}</p>
-        </div>
+        {!isCollapsed && (
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-white">{user.name}</p>
+            <p className="text-xs text-primary-200/60">{user.role}</p>
+          </div>
+        )}
         <button
           onClick={handleLogout}
           title="Logout"
@@ -136,12 +161,33 @@ function DashboardLayout() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50">
-      <aside className="hidden w-64 shrink-0 lg:block">{sidebar}</aside>
+      <aside className={`relative hidden shrink-0 transition-all duration-300 lg:block ${collapsed ? 'w-20' : 'w-64'}`}>
+        {renderSidebar(collapsed)}
+        <button
+          type="button"
+          onClick={toggleCollapsed}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-md transition-colors hover:text-primary-600"
+        >
+          <svg
+            className={`h-3.5 w-3.5 transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+      </aside>
 
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="absolute inset-0 bg-slate-900/50" onClick={() => setOpen(false)} />
-          <aside className="absolute inset-y-0 left-0 w-64 shadow-2xl">{sidebar}</aside>
+          <aside className="absolute inset-y-0 left-0 w-64 shadow-2xl">{renderSidebar(false)}</aside>
         </div>
       )}
 
@@ -155,6 +201,7 @@ function DashboardLayout() {
             >
               <Icon path={icons.menu} />
             </button>
+            
             <p className="text-sm font-medium text-slate-500">{today}</p>
           </div>
 

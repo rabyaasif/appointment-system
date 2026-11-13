@@ -7,6 +7,8 @@ import Skeleton from '../../components/ui/Skeleton'
 import PageHeader from '../../components/ui/PageHeader'
 import Textarea from '../../components/ui/Textarea'
 import Modal from '../../components/ui/Modal'
+import IconButton from '../../components/ui/IconButton'
+import { actionIcons } from '../../components/ui/icons'
 import { categories, categoryMeta } from '../../data/services'
 import { getServices } from '../../services/serviceService'
 import { createService, updateService, deleteService } from '../../services/adminService'
@@ -208,12 +210,8 @@ function ManageServices() {
                 <p className="w-24 text-sm font-bold text-slate-800">Rs {service.price.toLocaleString()}</p>
 
                 <div className="flex gap-2">
-                  <Button variant="secondary" size="sm" type="button" onClick={() => openEdit(service)}>
-                    Edit
-                  </Button>
-                  <Button variant="danger-outline" size="sm" type="button" onClick={() => openDelete(service)}>
-                    Delete
-                  </Button>
+                  <IconButton icon={actionIcons.edit} label="Edit" onClick={() => openEdit(service)} />
+                  <IconButton icon={actionIcons.trash} label="Delete" variant="danger" onClick={() => openDelete(service)} />
                 </div>
               </Card>
             )

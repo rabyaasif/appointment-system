@@ -7,6 +7,8 @@ import Avatar from '../../components/ui/Avatar'
 import Modal from '../../components/ui/Modal'
 import InputField from '../../components/ui/InputField'
 import Button from '../../components/ui/Button'
+import IconButton from '../../components/ui/IconButton'
+import { actionIcons } from '../../components/ui/icons'
 import { getServices } from '../../services/serviceService'
 import { getDoctors, createDoctor, setDoctorServices } from '../../services/adminService'
 
@@ -191,9 +193,7 @@ function ManageDoctors() {
                   : 'No services'}
               </Badge>
 
-              <Button variant="secondary" size="sm" type="button" onClick={() => openServices(doctor)}>
-                Manage Services
-              </Button>
+              <IconButton icon={actionIcons.list} label="Manage services" onClick={() => openServices(doctor)} />
             </Card>
           ))}
         </ul>

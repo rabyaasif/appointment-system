@@ -8,6 +8,8 @@ import Avatar from '../../components/ui/Avatar'
 import Modal from '../../components/ui/Modal'
 import Button from '../../components/ui/Button'
 import StatusBadge from '../../components/ui/StatusBadge'
+import IconButton from '../../components/ui/IconButton'
+import { actionIcons } from '../../components/ui/icons'
 import { getMyAppointments, cancelAppointment } from '../../services/appointmentService'
 import { formatDate, capitalize } from '../../utils/format'
 
@@ -121,9 +123,7 @@ function MyAppointments() {
 
                 <div className="flex w-20 justify-end">
                   {canCancel && (
-                    <Button variant="danger-outline" size="sm" type="button" onClick={() => openCancel(item)}>
-                      Cancel
-                    </Button>
+                    <IconButton icon={actionIcons.xCircle} label="Cancel" variant="danger" onClick={() => openCancel(item)} />
                   )}
                 </div>
               </Card>

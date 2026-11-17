@@ -1,6 +1,6 @@
 # Design System
 
-## 1. Audit (current state)
+## 1. Audit (before the refactor)
 
 ### Repeated UI pieces
 
@@ -11,21 +11,8 @@
 | Gradient button | 9 | 8 | One `Button` component with variants |
 | Skeleton (loading) | 8 | 8 | One `Skeleton` component |
 | Modal | 6 | 4 | One `Modal` component |
-| Input box | 6 | 6 | `Input`, `Select` and `Textarea` components |
+| Input box | 6 | 6 | `InputField`, `SelectField` and `Textarea` components |
 | Status badge | 5 | 5 | One `Badge` component |
-
-## 4. Audit result (before and after)
-
-| Item | Before | After |
-|---|---|---|
-| Card style repeated | 20 in 9 files | 2 in 2 | 
-| Page heading style | 14 in 12 files | 8 in 7 |
-| Gradient button style | 9 in 8 files | 2 in 1 |
-| Skeleton style | 8 in 8 files | 1 in 1 |
-| Modal shell | 6 in 4 files | 1 in 1 |
-| Input focus style | 6 in 6 files | 5 in 4 |
-| Status badge style | 5 in 5 files | 0 |
-| `rose` (second red) | 75 in 11 files | 0 |
 
 ### Colors in use
 
@@ -41,16 +28,18 @@
 - Sizes: `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, `text-3xl`
 - Custom size outside the Tailwind scale: `text-[11px]`
 - Weights: `font-medium`, `font-semibold`, `font-bold`, `font-extrabold`
-- `text-[11px]` is used 6 times in 3 files. Decision: replace with `text-xs`.
+- `text-[11px]` was used 6 times in 3 files. Replaced with `text-xs`.
 
 ### Inconsistencies
 
-- Two different reds are used for danger and errors: `rose` (75 uses in 11 files) and `red` (17 uses in 6 files). Decision: use one `danger` color, based on `rose`.
-- Gradients have no single rule. The sidebar, the banner and the buttons each use a different one.
-- The same long modal code is repeated in 6 places.
-- A custom font size (`text-[11px]`) is used outside the Tailwind scale, in 8 files.
+- Two different reds were used for danger and errors: `rose` (75 uses in 11 files) and `red` (17 uses in 6 files). Decision: use one `danger` color, based on `rose`.
+- Gradients had no single rule. The sidebar, the banner and the buttons each used a different one.
+- The same long modal code was repeated in 6 places.
+- A custom font size (`text-[11px]`) was used outside the Tailwind scale, in 3 files.
 
 ## 2. Design tokens
+
+All color tokens are defined in `frontend/src/index.css`.
 
 ### 2.1 Colors
 
@@ -58,7 +47,7 @@ Rule: colors are named by their purpose, not by their hue.
 
 | Token | Based on | Used for |
 |---|---|---|
-| `primary` | indigo (currently `brand`) | main actions, links, focus rings, active menu item |
+| `primary` | indigo | main actions, links, focus rings, active menu item |
 | `secondary` | violet | second color of the main gradient |
 | `accent` | fuchsia and pink | highlight gradient on call-to-action buttons |
 | `success` | emerald | confirmed status, success messages |
@@ -72,14 +61,12 @@ Each color comes in these shades:
 | Shade | Used for |
 |---|---|
 | `50` | soft background (for example a badge background) |
+| `100` | soft ring or light hover background |
+| `200` | soft border |
 | `500` | main color |
 | `600` | hover state |
 | `700` | text on top of a soft background |
-| `100` | soft ring or light hover background |
-| `200` | soft border |
 | `900` | very dark shade (only `primary`, used by the sidebar gradient) |
-
-All tokens are defined in `frontend/src/index.css`.
 
 ### 2.2 Status colors
 
@@ -88,7 +75,7 @@ All tokens are defined in `frontend/src/index.css`.
 | Pending | `warning` |
 | Confirmed | `success` |
 | Completed | `info` |
-| Cancelled | `danger`
+| Cancelled | `danger` |
 
 ### 2.3 Typography
 
@@ -114,7 +101,7 @@ Font weights:
 | 500 | `font-medium` | labels, menu items |
 | 600 | `font-semibold` | badges, buttons |
 | 700 | `font-bold` | titles |
-| 800 | `font-extrabold` | page titles, big numbers | |
+| 800 | `font-extrabold` | page titles, big numbers |
 
 ### 2.4 Border radius
 
@@ -143,9 +130,9 @@ Rule: only the four gradients below are allowed. Do not write a new gradient ins
 
 | Token | Colors | Used for |
 |---|---|---|
-| `gradient-primary` | primary-600 to secondary (violet-600) | selected states: active tab, active menu item, selected date or time slot, step numbers, logo |
+| `gradient-primary` | primary-600 to secondary-600 | selected states: active tab, active menu item, selected date or time slot, step numbers, logo |
 | `gradient-accent` | primary, purple, pink, orange (slides on hover) | the main call-to-action button on a screen (Create Account, Add Service, Book Appointment) |
-| `gradient-hero` | primary-600, secondary, fuchsia | the welcome banner at the top of the Overview pages |
+| `gradient-hero` | primary-600, secondary-600, accent-500 | the welcome banner at the top of the Overview pages |
 | `gradient-sidebar` | primary-900 to slate-950 | the dark sidebar background |
 
 Status colors can also be used as a soft gradient on stat icons (for example `success`, `warning`, `info`, `accent`), but only on those small icons.
@@ -199,9 +186,23 @@ Rule: use Tailwind's 4px scale (`1` = 4px, `2` = 8px, `3` = 12px, `4` = 16px, `5
 |---|---|
 | Input, select, primary button | `h-11` |
 | Small button, search box in toolbar | `h-10` |
+| Icon button | `h-9 w-9` |
 | Time slot button | `h-9` |
 | Avatar (list) | `h-10 w-10` or `h-11 w-11` |
 | Stat icon | `h-12 w-12` |
+
+### 2.10 Service category colors
+
+Categories never use `danger` or `warning`, because those colors signal a problem.
+
+| Category | Token |
+|---|---|
+| General | `success` |
+| Specialist | `primary` |
+| Dental | `info` |
+| Women & Child | `accent` |
+
+The colors are defined in `categoryMeta` in `frontend/src/data/services.js`.
 
 ## 3. Components
 
@@ -234,19 +235,6 @@ A `Badge` that picks its color from an appointment status (see section 2.2).
 | Prop | Values |
 |---|---|
 | `status` | `pending`, `confirmed`, `completed`, `cancelled` |
-
-### 2.10 Service category colors
-
-Categories never use `danger` or `warning`, because those colors signal a problem.
-
-| Category | Token |
-|---|---|
-| General | `success` |
-| Specialist | `primary` |
-| Dental | `info` |
-| Women & Child | `accent` |
-
-The colors are defined in `categoryMeta` in `frontend/src/data/services.js`.
 
 ### Skeleton
 
@@ -345,6 +333,29 @@ All clickable actions. Use `type="button"` for buttons that are not meant to sub
 | `success` | Confirm |
 | `info` | Complete |
 
+### IconButton
+
+A square button with only an icon. Used for row actions in lists (confirm, complete, cancel, edit, delete). The `label` shows as a tooltip on hover and focus, and is read by screen readers. Main actions on a screen (Login, Add Service, Save, Book Appointment) keep their text and use `Button`.
+
+| Prop | Values | Default |
+|---|---|---|
+| `icon` | a Lucide icon from `actionIcons` | required |
+| `label` | text (tooltip and accessible name) | required |
+| `variant` | `neutral`, `success`, `info`, `danger` | `neutral` |
+| `isLoading` | `true`, `false` | `false` (shows a spinner) |
+| `disabled` | `true`, `false` | `false` |
+
+| Action | Icon | Variant |
+|---|---|---|
+| Confirm | `check` | `success` |
+| Complete | `checkCircle` | `info` |
+| Cancel | `xCircle` | `danger` |
+| Edit | `edit` | `neutral` |
+| Delete | `trash` | `danger` |
+| Manage services | `list` | `neutral` |
+
+Icons come from `lucide-react` and are listed in `frontend/src/components/ui/icons.js`.
+
 ### InputField
 
 A text field with a label and a reserved space for the error message. A password field gets a Show/Hide toggle.
@@ -366,3 +377,50 @@ A dropdown with a label. Options are passed as children.
 | `size` | `md` (44px), `sm` (40px) | `md` |
 | `hideLabel` | `true`, `false` | `false` (label stays available to screen readers) |
 | `className` | string | |
+
+### Sidebar
+
+The sidebar can be collapsed to icons only with the round button on its edge. The choice is remembered in the browser (`localStorage`, key `sidebar-collapsed`). On small screens the sidebar opens as a drawer and is always expanded.
+
+## 4. Audit result (before and after)
+
+| Item | Before | After |
+|---|---|---|
+| Card style repeated | 20 in 9 files | 2 in 2 |
+| Page heading style | 14 in 12 files | 8 in 7 |
+| Gradient button style | 9 in 8 files | 2 in 1 |
+| Skeleton style | 8 in 8 files | 1 in 1 |
+| Modal shell | 6 in 4 files | 1 in 1 |
+| Input focus style | 6 in 6 files | 5 in 4 |
+| Status badge style | 5 in 5 files | 0 |
+| `rose` (second red) | 75 in 11 files | 0 |
+
+## 5. New theme (branch `new-theme`)
+
+Source: a template with a soft (neumorphic) split-screen login and signup, and the palette below.
+
+### 5.1 Source palette
+
+| Name | Hex | Role |
+|---|---|---|
+| Space Indigo | `#22223b` | darkest color, text and sidebar |
+| Dusty Grape | `#4a4e69` | main brand color |
+| Lilac Ash | `#9a8c98` | secondary, muted elements |
+| Almond Silk | `#c9ada7` | accent, highlights |
+| Parchment | `#f2e9e4` | page and card background |
+
+### 5.2 Token mapping
+
+| Token | Source color | Used for |
+|---|---|---|
+| `primary` | Dusty Grape | main actions, focus rings, links |
+| `secondary` | Lilac Ash | second color in gradients, muted elements |
+| `accent` | Almond Silk | highlights and call-to-action |
+| `surface` | Parchment | page and card background on the auth pages |
+| `success`, `warning`, `info`, `danger` | unchanged | the palette has no status colors, so these stay |
+
+### 5.3 Rules
+
+- Text on Lilac Ash or Almond Silk is always Space Indigo. White text on them has too little contrast.
+- Lilac Ash is for decoration and placeholders only, not for body text.
+- Soft (neumorphic) shadows are used on the login, signup and OTP pages only.

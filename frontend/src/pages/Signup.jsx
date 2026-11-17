@@ -72,7 +72,7 @@ function Signup() {
     setFormError('')
 
     try {
-            const data = await signupUser({
+      const data = await signupUser({
         name: formData.name.trim(),
         email: formData.email.trim().toLowerCase(),
         phone: formData.phone.replace(/[\s-]/g, ''),
@@ -92,13 +92,20 @@ function Signup() {
   }
 
   return (
-    <AuthLayout wide>
-      <h1 className="text-center text-2xl font-extrabold tracking-tight text-slate-900">Create your account</h1>
+    <AuthLayout
+      wide
+      panelSide="left"
+      panelTitle="Welcome back!"
+      panelText="Already have an account?"
+      panelLabel="Login"
+      panelTo="/login"
+    >
+      <h1 className="text-center text-2xl font-extrabold tracking-tight text-primary-900">Create your account</h1>
       <p className="mb-5 mt-1.5 text-center text-sm text-slate-500">Sign up to start booking appointments.</p>
 
       <form onSubmit={handleSubmit} noValidate className="space-y-1">
         <div className="grid gap-x-4 sm:grid-cols-2">
-          <InputField
+          <InputField variant="soft"
             label="Full Name"
             name="name"
             value={formData.name}
@@ -107,7 +114,7 @@ function Signup() {
             placeholder="Your full name"
             autoComplete="name"
           />
-          <InputField
+          <InputField variant="soft"
             label="Phone Number"
             name="phone"
             type="tel"
@@ -119,7 +126,7 @@ function Signup() {
           />
         </div>
 
-        <InputField
+        <InputField variant="soft"
           label="Email"
           name="email"
           type="email"
@@ -131,7 +138,7 @@ function Signup() {
         />
 
         <div className="grid gap-x-4 sm:grid-cols-2">
-          <InputField
+          <InputField variant="soft"
             label="Password"
             name="password"
             type="password"
@@ -141,7 +148,7 @@ function Signup() {
             placeholder="Create a password"
             autoComplete="new-password"
           />
-          <InputField
+          <InputField variant="soft"
             label="Confirm Password"
             name="confirmPassword"
             type="password"
@@ -162,7 +169,7 @@ function Signup() {
         </div>
       </form>
 
-      <p className="mt-4 text-center text-sm text-slate-500">
+      <p className="mt-4 text-center text-sm text-slate-500 md:hidden">
         Already have an account?{' '}
         <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-700 hover:underline">
           Login

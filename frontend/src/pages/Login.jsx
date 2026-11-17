@@ -110,7 +110,7 @@ function Login() {
         {formError && <p className="pt-1 text-center text-sm text-danger-500">{formError}</p>}
 
         <div className="pt-2">
-          <Button variant="soft" fullWidth isLoading={isLoading} loadingText="Logging in...">
+          <Button fullWidth isLoading={isLoading} loadingText="Logging in...">
             Login
           </Button>
         </div>

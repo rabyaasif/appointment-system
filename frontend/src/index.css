@@ -4,38 +4,42 @@
 @theme {
   --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 
-  /* primary (indigo): main actions, links, focus rings */
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-900: #1e1b4b;
+    /* primary (Dusty Grape): main actions, links, focus rings, sidebar */
+  --color-primary-50: #eef0f5;
+  --color-primary-100: #d8dae3;
+  --color-primary-200: #b1b4c8;
+  --color-primary-500: #4a4e69;
+  --color-primary-600: #3b3e54;
+  --color-primary-700: #2c2f3f;
+  --color-primary-900: #22223b;
+  --color-primary-950: #0d0d17;
 
-  /* secondary (violet): second color of the main gradient */
-  --color-secondary-50: #f5f3ff;
-  --color-secondary-100: #ede9fe;
-  --color-secondary-200: #ddd6fe;
-  --color-secondary-500: #8b5cf6;
-  --color-secondary-600: #7c3aed;
-  --color-secondary-700: #6d28d9;
+  /* secondary (Lilac Ash): second color in gradients, muted elements */
+  --color-secondary-50: #f6f4f5;
+  --color-secondary-100: #ebe8ea;
+  --color-secondary-200: #d7d2d6;
+  --color-secondary-300: #9a8c98;
+  --color-secondary-500: #7d6f7b;
+  --color-secondary-600: #5e535c;
+  --color-secondary-700: #3f383e;
 
-  /* accent (fuchsia): highlights */
-  --color-accent-50: #fdf4ff;
-  --color-accent-100: #fae8ff;
-  --color-accent-200: #f5d0fe;
-  --color-accent-500: #d946ef;
-  --color-accent-600: #c026d3;
-  --color-accent-700: #a21caf;
+  /* accent (Almond Silk): highlights */
+  --color-accent-50: #faf6f5;
+  --color-accent-100: #f4efed;
+  --color-accent-200: #e9dedc;
+  --color-accent-300: #c9ada7;
+  --color-accent-500: #895d54;
+  --color-accent-600: #5b3e38;
+  --color-accent-700: #2e1f1c;
 
-  /* success (emerald): confirmed, success messages */
-  --color-success-50: #ecfdf5;
-  --color-success-100: #d1fae5;
-  --color-success-200: #a7f3d0;
-  --color-success-500: #10b981;
-  --color-success-600: #059669;
-  --color-success-700: #047857;
+  /* surface (Parchment): page and card background */
+  --color-surface-50: #faf6f4;
+  --color-surface-100: #f2e9e4;
+
+  /* soft (neumorphic) shadows: login, signup and OTP pages only */
+  --shadow-soft: 8px 8px 16px #d4c7bf, -8px -8px 16px #ffffff;
+  --shadow-soft-sm: 4px 4px 8px #d4c7bf, -4px -4px 8px #ffffff;
+  --shadow-soft-inset: inset 4px 4px 8px #d4c7bf, inset -4px -4px 8px #ffffff;
 
   /* warning (amber): pending, cautions */
   --color-warning-50: #fffbeb;
@@ -71,29 +75,28 @@
 /* Gradients: only these four are allowed (see DESIGN_SYSTEM.md, section 2.6) */
 
 @utility gradient-primary {
-  background-image: linear-gradient(135deg, var(--color-primary-600), var(--color-secondary-600));
+  background-image: linear-gradient(135deg, var(--color-primary-500), var(--color-secondary-500));
 }
 
 @utility gradient-hero {
   background-image: linear-gradient(
     90deg,
-    var(--color-primary-600),
-    var(--color-secondary-600),
-    var(--color-accent-500)
+    var(--color-primary-900),
+    var(--color-primary-500),
+    var(--color-secondary-500)
   );
 }
 
 @utility gradient-sidebar {
-  background-image: linear-gradient(to bottom, var(--color-primary-900), var(--color-slate-950));
+  background-image: linear-gradient(to bottom, var(--color-primary-900), var(--color-primary-950));
 }
 
 @utility gradient-accent {
   background-image: linear-gradient(
     90deg,
-    var(--color-primary-500) 0%,
-    #a855f7 30%,
-    #ec4899 50%,
-    #f97316 100%
+    var(--color-primary-600) 0%,
+    var(--color-primary-500) 45%,
+    var(--color-secondary-500) 100%
   );
   background-size: 200% 100%;
   background-position: 0% 50%;

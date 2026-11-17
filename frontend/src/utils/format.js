@@ -1,7 +1,7 @@
 const AVATAR_COLORS = [
   'from-primary-500 to-secondary-500',
   'from-secondary-500 to-accent-500',
-  'from-accent-500 to-pink-500',
+  'from-accent-500 to-primary-500',
 ]
 
 export function formatDate(iso) {

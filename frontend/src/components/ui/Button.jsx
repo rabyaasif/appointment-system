@@ -13,6 +13,10 @@ const variants = {
   success:
     'bg-success-500 text-white transition-all duration-200 hover:bg-success-600 focus-visible:ring-success-500/30',
   info: 'bg-info-500 text-white transition-all duration-200 hover:bg-info-600 focus-visible:ring-info-500/30',
+    soft:
+    'bg-surface-100 text-primary-700 shadow-soft transition-all duration-200 hover:shadow-soft-sm focus-visible:ring-primary-500/30 active:shadow-soft-inset',
+  'on-dark':
+    'border border-white/40 bg-white/10 text-white transition-all duration-200 hover:bg-white/20 focus-visible:ring-white/40',
 }
 
 const sizes = {

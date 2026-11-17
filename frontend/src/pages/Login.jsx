@@ -74,13 +74,19 @@ function Login() {
   }
 
   return (
-    <AuthLayout>
-      <h1 className="text-center text-2xl font-extrabold tracking-tight text-slate-900">Welcome back</h1>
+    <AuthLayout
+      panelTitle="Welcome to Smart Appointment!"
+      panelText="New here?"
+      panelLabel="Sign up"
+      panelTo="/signup"
+    >
+      <h1 className="text-center text-2xl font-extrabold tracking-tight text-primary-900">Welcome back</h1>
       <p className="mb-6 mt-1.5 text-center text-sm text-slate-500">Login to manage your appointments.</p>
 
       <form onSubmit={handleSubmit} noValidate className="space-y-1">
         <InputField
           label="Email"
+          variant="soft"
           name="email"
           type="email"
           value={formData.email}
@@ -91,6 +97,7 @@ function Login() {
         />
         <InputField
           label="Password"
+          variant="soft"
           name="password"
           type="password"
           value={formData.password}
@@ -103,13 +110,13 @@ function Login() {
         {formError && <p className="pt-1 text-center text-sm text-danger-500">{formError}</p>}
 
         <div className="pt-2">
-          <Button fullWidth isLoading={isLoading} loadingText="Logging in...">
+          <Button variant="soft" fullWidth isLoading={isLoading} loadingText="Logging in...">
             Login
           </Button>
         </div>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-500">
+      <p className="mt-6 text-center text-sm text-slate-500 md:hidden">
         Don't have an account?{' '}
         <Link to="/signup" className="font-semibold text-primary-600 hover:text-primary-700 hover:underline">
           Create one

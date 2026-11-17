@@ -85,7 +85,6 @@ export async function signup(req, res) {
     }
 }
 
-
 function otpError(res, status, message) {
     return res.status(status).json({ success: false, message, errors: { otp: message } })
 }
@@ -209,7 +208,6 @@ export function me(req, res) {
     const { id, name, email, phone, role } = req.user
     res.json({ success: true, user: { id, name, email, phone, role } })
 }
-
 
 const RESEND_COOLDOWN_SECONDS = 60
 

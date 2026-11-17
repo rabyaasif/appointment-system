@@ -9,7 +9,7 @@ const variants = {
 }
 
 function IconButton({
-    icon: Icon,
+  icon: Icon,
   label,
   variant = 'neutral',
   type = 'button',

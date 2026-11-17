@@ -66,7 +66,7 @@ async function seed() {
       await pool.execute('INSERT IGNORE INTO doctor_services (doctor_id, service_id) VALUES (?, ?)', [doctorId, svc[0].id])
     }
 
-    // Peer se Hafte tak (Mon-Sat), 9 se 5
+    // Mon-Sat, 9 se 5
     for (let day = 1; day <= 6; day++) {
       await pool.execute(
         'INSERT IGNORE INTO doctor_availability (doctor_id, day_of_week, start_time, end_time) VALUES (?, ?, ?, ?)',
@@ -75,7 +75,7 @@ async function seed() {
     }
   }
 
-    // Admin account (sirf tab banta hai jab .env mein email aur password ho)
+  // Admin account (sirf tab banta hai jab .env mein email aur password ho)
   const adminEmail = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase()
   const adminPassword = process.env.SEED_ADMIN_PASSWORD
 

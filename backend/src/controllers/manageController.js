@@ -102,7 +102,6 @@ export async function updateStatus(req, res) {
   res.json({ success: true, message: `Appointment ${status}`, status })
 }
 
-
 export async function getStats(req, res) {
   const isDoctor = req.user.role === 'doctor'
   const scopeSql = isDoctor ? ' AND a.doctor_id = ?' : ''

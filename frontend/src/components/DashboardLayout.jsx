@@ -90,12 +90,12 @@ function DashboardLayout() {
   })
 
   const renderSidebar = (isCollapsed) => (
-    <div className={`relative flex h-full flex-col overflow-hidden gradient-sidebar py-6 ${isCollapsed ? 'px-3' : 'px-4'}`}>
-      <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-primary-500/30 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-accent-500/20 blur-3xl" />
+    <div className={`relative flex h-full flex-col overflow-hidden bg-primary-900 py-6 ${isCollapsed ? 'px-3' : 'px-4'}`}>
+      <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-primary-500/30" />
+      <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-accent-500/20" />
 
       <div className={`relative mb-8 flex items-center gap-3 ${isCollapsed ? 'justify-center' : 'px-2'}`}>
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary shadow-lg shadow-primary-500/30">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary-500">
           <Icon path={icons.calendar} className="h-5 w-5 text-white" />
         </div>
         {!isCollapsed && <span className="text-base font-bold text-white">Smart Appointment</span>}
@@ -118,7 +118,7 @@ function DashboardLayout() {
             aria-label={item.label}
             className={({ isActive }) =>
               `group flex items-center rounded-xl p-2 ${isCollapsed ? 'justify-center' : 'gap-3 pr-3'} text-sm font-medium transition-all duration-200 ${isActive
-                ? 'gradient-primary text-white shadow-lg shadow-primary-500/30'
+                ? 'bg-primary-500 text-white'
                 : 'text-primary-100/70 hover:bg-white/10 hover:text-white'
               }`
             }
@@ -160,7 +160,7 @@ function DashboardLayout() {
   )
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden bg-surface-100">
       <aside className={`relative hidden shrink-0 transition-all duration-300 lg:block ${collapsed ? 'w-20' : 'w-64'}`}>
         {renderSidebar(collapsed)}
         <button
@@ -192,7 +192,7 @@ function DashboardLayout() {
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200/70 bg-white/70 px-4 backdrop-blur sm:px-8">
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-accent-200 bg-white px-4 sm:px-8">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setOpen(true)}
@@ -213,7 +213,7 @@ function DashboardLayout() {
           )}
         </header>
 
-        <main className="flex-1 overflow-y-auto bg-linear-to-br from-slate-50 to-primary-50/50 p-4 sm:p-6 lg:px-8 lg:py-6">
+        <main className="flex-1 overflow-y-auto bg-surface-100 p-4 sm:p-6 lg:px-8 lg:py-6">
           <Outlet />
         </main>
       </div>
